@@ -14,14 +14,6 @@
                         <StackLayout class="hr-light"></StackLayout>
                     </StackLayout>
 
-                    <StackLayout row="1" class="input-field" v-if="false">
-                        <TextField class="input" ref="password" :isEnabled="!processing"
-                            hint="Password" secure="true" v-model="user.password"
-                            :returnKeyType="isLoggingIn ? 'done' : 'next'"
-                            @returnPress="focusConfirmPassword"></TextField>
-                        <StackLayout class="hr-light"></StackLayout>
-                    </StackLayout>
-
                     <StackLayout row="2" v-show="!isLoggingIn" class="input-field">
                         <TextField class="input" ref="confirmPassword" :isEnabled="!processing"
                             hint="Confirm password" secure="true" v-model="user.confirmPassword"
@@ -38,12 +30,7 @@
                
             </StackLayout>
 
-            <Label v-if="false" class="login-label sign-up-label" @tap="toggleForm">
-                <FormattedString>
-                    <Span :text="isLoggingIn ? 'Don’t have an account? ' : 'Back to Login'"></Span>
-                    <Span :text="isLoggingIn ? 'Sign up' : ''" class="bold"></Span>
-                </FormattedString>
-            </Label>
+            
         </FlexboxLayout>
     </Page>
 </template>
@@ -91,8 +78,6 @@
             },
 
             login() {
-
-                
                 request({
                     url: BASE_API + "Users/signup",
                     method: "POST",
@@ -103,24 +88,15 @@
                     }).then((response) => {
                         const result = response.content.toJSON();
                         this.processing = false;
-                    }, (e) => {
-                        console.log(e);
-                        // this.$navigateTo(Code, { clearHistory: true });
-                    });
 
-                
-                /*this.$backendService
-                    .login(this.user)
-                    .then(() => {
-                        this.processing = false;
-                        this.$navigateTo(Home, { clearHistory: true });
-                    })
-                    .catch(() => {
+                        this.$navigateTo(Code, { clearHistory: true });
+
+                    }, (e) => {
                         this.processing = false;
                         this.alert(
-                            "Unfortunately we could not find your account."
+                            "Unfortunately we could not set up your account."
                         );
-                    });*/
+                    })
             },
 
             register() {
@@ -146,31 +122,7 @@
                     });
             },
 
-            forgotPassword() {
-                prompt({
-                    title: "Forgot Password",
-                    message: "Enter the email address you used to register for APP NAME to reset your password.",
-                    inputType: "email",
-                    defaultText: "",
-                    okButtonText: "Ok",
-                    cancelButtonText: "Cancel"
-                }).then(data => {
-                    if (data.result) {
-                        this.$backendService
-                            .resetPassword(data.text.trim())
-                            .then(() => {
-                                this.alert(
-                                    "Your password was successfully reset. Please check your email for instructions on choosing a new password."
-                                );
-                            })
-                            .catch(() => {
-                                this.alert(
-                                    "Unfortunately, an error occurred resetting your password."
-                                );
-                            });
-                    }
-                });
-            },
+            
 
             focusPassword() {
                 this.$refs.password.nativeView.focus();
