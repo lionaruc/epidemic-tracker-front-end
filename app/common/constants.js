@@ -1,0 +1,1 @@
+export const BASE_API="http://167.86.78.140:5000/api/v1/"
