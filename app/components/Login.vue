@@ -40,9 +40,11 @@
 
     import Code from "./Code";
 
-    import {BASE_API} from '../common/constants'
+    import {BASE_API} from '../common/constants';
 
     import { getFile, getImage, getJSON, getString, request, HttpResponse } from "tns-core-modules/http";
+
+    const appSettings = require("tns-core-modules/application-settings");
 
     export default {
         data() {
@@ -56,6 +58,15 @@
                     confirmPassword: "vue"
                 }
             };
+        },
+        created () {
+            const tok = appSettings.getString("tok", null);
+
+            console.log(tok);
+
+            if (tok) {
+                this.$navigateTo(Home, { clearHistory: true });
+            }
         },
         methods: {
             toggleForm() {
@@ -72,8 +83,6 @@
                 this.processing = true;
                 if (this.isLoggingIn) {
                     this.login();
-                } else {
-                    this.register();
                 }
             },
 
@@ -89,6 +98,8 @@
                         const result = response.content.toJSON();
                         this.processing = false;
 
+                        appSettings.setString("username", "+" + this.user.phone);
+
                         this.$navigateTo(Code, { clearHistory: true });
 
                     }, (e) => {
@@ -98,31 +109,6 @@
                         );
                     })
             },
-
-            register() {
-                if (this.user.password != this.user.confirmPassword) {
-                    this.alert("Your passwords do not match.");
-                    this.processing = false;
-                    return;
-                }
-
-                this.$backendService
-                    .register(this.user)
-                    .then(() => {
-                        this.processing = false;
-                        this.alert(
-                            "Your account was successfully created.");
-                        this.isLoggingIn = true;
-                    })
-                    .catch(() => {
-                        this.processing = false;
-                        this.alert(
-                            "Unfortunately we were unable to create your account."
-                        );
-                    });
-            },
-
-            
 
             focusPassword() {
                 this.$refs.password.nativeView.focus();

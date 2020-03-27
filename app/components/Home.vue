@@ -12,11 +12,19 @@
 <script>
     import Login from "./Login";
 
+    const appSettings = require("tns-core-modules/application-settings");
+
     export default {
         data() {
             return {
-                message: "You have successfully authenticated. This is where you build your core application functionality."
+                username: '',
+                message: `Welcome`
             };
+        },
+        created() {
+            // second parameter is default value
+            this.message = 'Welcome' + appSettings.getString("username", null);
+            this.username = appSettings.getString("username", null);
         },
         methods: {
             logout() {

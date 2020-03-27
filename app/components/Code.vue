@@ -10,42 +10,21 @@
                     <StackLayout row="0" class="input-field">
                         <TextField class="input" hint="Code" :isEnabled="!processing"
                             keyboardType="phone" autocorrect="false"
-                            autocapitalizationType="none" v-model="user.phone"
+                            autocapitalizationType="none" v-model="user.password"
                             returnKeyType="next" @returnPress="focusPassword"></TextField>
-                        <StackLayout class="hr-light"></StackLayout>
-                    </StackLayout>
-
-                    <StackLayout row="1" class="input-field" v-if="false">
-                        <TextField class="input" ref="password" :isEnabled="!processing"
-                            hint="Password" secure="true" v-model="user.password"
-                            :returnKeyType="isLoggingIn ? 'done' : 'next'"
-                            @returnPress="focusConfirmPassword"></TextField>
-                        <StackLayout class="hr-light"></StackLayout>
-                    </StackLayout>
-
-                    <StackLayout row="2" v-show="!isLoggingIn" class="input-field">
-                        <TextField class="input" ref="confirmPassword" :isEnabled="!processing"
-                            hint="Confirm password" secure="true" v-model="user.confirmPassword"
-                            returnKeyType="done"></TextField>
                         <StackLayout class="hr-light"></StackLayout>
                     </StackLayout>
 
                     <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
                 </GridLayout>
 
-                <Button :text="isLoggingIn ? 'Send Code' : 'Sign Up'" :isEnabled="!processing"
+                <Button :text="isLoggingIn ? 'Log In' : 'Sign Up'" :isEnabled="!processing"
                     @tap="submit" class="btn btn-primary m-t-20"></Button>
 
                 <Label *v-show="isLoggingIn" text="Didn't receive code?"
                     class="login-label" @tap="noCode()"></Label>
             </StackLayout>
 
-            <Label v-if="false" class="login-label sign-up-label" @tap="toggleForm">
-                <FormattedString>
-                    <Span :text="isLoggingIn ? 'Don’t have an account? ' : 'Back to Login'"></Span>
-                    <Span :text="isLoggingIn ? 'Sign up' : ''" class="bold"></Span>
-                </FormattedString>
-            </Label>
         </FlexboxLayout>
     </Page>
 </template>
@@ -54,6 +33,12 @@
     import Home from "./Home";
     import Login from "./Login";
 
+    import {BASE_API} from '../common/constants'
+
+    import { getFile, getImage, getJSON, getString, request, HttpResponse } from "tns-core-modules/http";
+    
+    const appSettings = require("tns-core-modules/application-settings");
+
     export default {
         data() {
             return {
@@ -61,17 +46,44 @@
                 processing: false,
                 user: {
                     email: "vue@nativescript.org",
-                    password: "vue",
+                    password: null,
                     phone: '',
                     confirmPassword: "vue"
                 }
             };
         },
+        created() {
+            // second parameter is default value
+            this.user.phone = appSettings.getString("username", null);
+        },
         methods: {
             toggleForm() {
                 this.isLoggingIn = !this.isLoggingIn;
             },
+            login() {
+                request({
+                    url: BASE_API + "Users/authenticate",
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    content: JSON.stringify({
+                        username: this.user.phone,
+                        password: this.user.password
+                    })
+                    }).then((response) => {
+                        const result = response.content.toJSON();
+                        this.processing = false;   
+                        
+                        appSettings.setString("tok", result.token);
 
+                        this.$navigateTo(Home, { clearHistory: true });
+
+                    }, (e) => {
+                        this.processing = false;
+                        this.alert(
+                            "Unfortunately we could not find your account."
+                        );
+                    })
+            },
             submit() {
                 if (!this.user.email || !this.user.password) {
                     this.alert(
@@ -83,78 +95,13 @@
                 this.processing = true;
                 if (this.isLoggingIn) {
                     this.login();
-                } else {
-                    this.register();
                 }
-            },
-
-            login() {
-                this.$backendService
-                    .login(this.user)
-                    .then(() => {
-                        this.processing = false;
-                        this.$navigateTo(Home, { clearHistory: true });
-                    })
-                    .catch(() => {
-                        this.processing = false;
-                        this.alert(
-                            "Unfortunately we could not find your account."
-                        );
-                    });
-            },
-
-            register() {
-                if (this.user.password != this.user.confirmPassword) {
-                    this.alert("Your passwords do not match.");
-                    this.processing = false;
-                    return;
-                }
-
-                this.$backendService
-                    .register(this.user)
-                    .then(() => {
-                        this.processing = false;
-                        this.alert(
-                            "Your account was successfully created.");
-                        this.isLoggingIn = true;
-                    })
-                    .catch(() => {
-                        this.processing = false;
-                        this.alert(
-                            "Unfortunately we were unable to create your account."
-                        );
-                    });
             },
 
             noCode () {
                 this.$navigateTo(Login, { clearHistory: true });
             },
 
-            forgotPassword() {
-                prompt({
-                    title: "Forgot Password",
-                    message: "Enter the email address you used to register for APP NAME to reset your password.",
-                    inputType: "email",
-                    defaultText: "",
-                    okButtonText: "Ok",
-                    cancelButtonText: "Cancel"
-                }).then(data => {
-                    if (data.result) {
-                        this.$backendService
-                            .resetPassword(data.text.trim())
-                            .then(() => {
-                                this.alert(
-                                    "Your password was successfully reset. Please check your email for instructions on choosing a new password."
-                                );
-                            })
-                            .catch(() => {
-                                this.alert(
-                                    "Unfortunately, an error occurred resetting your password."
-                                );
-                            });
-                    }
-                });
-            },
 
             focusPassword() {
                 this.$refs.password.nativeView.focus();
@@ -164,7 +111,6 @@
                     this.$refs.confirmPassword.nativeView.focus();
                 }
             },
-
             alert(message) {
                 return alert({
                     title: "APP NAME",
