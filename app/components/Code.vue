@@ -82,11 +82,21 @@
                     })
                     }).then((response) => {
                         const result = response.content.toJSON();
-                        this.processing = false;   
-                        
-                        appSettings.setString("tok", result.token);
+                        this.processing = false;
 
-                        this.$navigateTo(Home, { clearHistory: true });
+                        console.log(response);
+                        
+                        if(response.statusCode == 200) {
+                            appSettings.setString("tok", result.token);
+
+                            this.$navigateTo(Home, { clearHistory: true });
+                        }
+                        else{
+                            this.alert(
+                                "Unfortunately we could not find your account."
+                            );
+                        }
+                        
 
                     }, (e) => {
                         this.processing = false;
@@ -123,7 +133,7 @@
             },
             alert(message) {
                 return alert({
-                    title: "APP NAME",
+                    title: "AUTHENTICATION FAILED",
                     okButtonText: "OK",
                     message: message
                 });

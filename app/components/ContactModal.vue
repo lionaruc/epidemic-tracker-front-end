@@ -6,22 +6,14 @@
         <StackLayout class="modal-form">
 		    
             <StackLayout class="modal-form-field">
-                        <TextField class="input" hint="Phone eg. 254xx"
+                        <TextField class="input" hint="Phone eg. +254xx"
                             keyboardType="phone" autocorrect="false"
                             autocapitalizationType="none" v-model="phone"
                             returnKeyType="next"></TextField>
-                        <StackLayout class="hr-light"></StackLayout>
-            </StackLayout>
-
-            <StackLayout class="modal-form-field">
-                        <TextField class="input" hint="Nickname eg. Joe"
-                            keyboardType="text" autocorrect="false"
-                            autocapitalizationType="none" v-model="nick"
-                            returnKeyType="next"></TextField>
-                        <StackLayout class="hr-light"></StackLayout>
+                        <StackLayout class="hr-dark"></StackLayout>
             </StackLayout>
  
-            <StackLayout >
+            <StackLayout class="modal-form-field">
                 <Label text="When did you meet them?" style="color: black; margin-bottom: 13px;"/>
                 
                 <DatePicker :year="currentYear" @dateChange="dateChanged($event)"
@@ -32,9 +24,9 @@
 
             <StackLayout >
                 <Label text="Where did you meet them?" style="color: black; margin-bottom: 13px;"/>
-                        <SearchBar hint="Search hint" :text="searchPhrase"
-                            @submit="searchSubmit" @clear="onTextClear" />
-                        <StackLayout class="hr-light"></StackLayout>
+                        <SearchBar hint="Type in a location" :text="searchPhrase"
+                            @submit="searchSubmit" @clear="onTextClear" style="background-color: white"/>
+                        <StackLayout class="hr-dark"></StackLayout>
 
 
                     <StackLayout  style="height: 100; margin-top: 11px;" v-if="!location && !textCleared">
@@ -52,7 +44,12 @@
 
         <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
 
-        <Button :isEnabled="phone && nick && location&& !processing" class="btn btn-outline" text="Save Contact"/>
+        <Button v-if="phone && nick && location && chosenDate && !processing" class="btn btn-outline" text="Save Contact" @tap="submitContact"/>
+        <Label v-if="!chosenDate" text="* Please pick a date" style="color: red; margin: 13"></Label>
+
+        <Label v-if="!phone" text="* Please pick a phone number" style="color: red; margin: 13"></Label>
+
+        <Label v-if="error" text="Sorry, request failed, try again" style="color: red; margin: 13"></Label>
 
 		<Button class="btn btn-outline" text="Close Modal" @tap="$modal.close()" />
 	</StackLayout>
@@ -60,22 +57,25 @@
 
 <script>
 
- import { getFile, getImage, getJSON, getString, request, HttpResponse } from "tns-core-modules/http";
+import { getFile, getImage, getJSON, getString, request, HttpResponse } from "tns-core-modules/http";
 
- import {GKEY} from '../common/constants';
+import {BASE_API, GKEY} from '../common/constants';
+
+const appSettings = require("tns-core-modules/application-settings");
 
 export default {
     data() {
         return {
             phone: null,
             processing: false,
-            nick: null,
+            nick: 'nick',
             searchPhrase: '',
             suspicion: false,
             chosenDate: null,
             currentDay: new Date().getUTCDate(),
             currentMonth: new Date().getUTCMonth() + 1,
             currentYear: new Date().getUTCFullYear(),
+            error: false,
             locations: [],
             location: null,
             locationId: null,
@@ -98,7 +98,8 @@ export default {
                     "description": "Mama Ngina Street, Nairobi, Kenya",
                     "place_id": "EiFNYW1hIE5naW5hIFN0cmVldCwgTmFpcm9iaSwgS2VueWEiLiosChQKEgnZIBez1xAvGBEkIUs5hWHrEhIUChIJTQu5FNcQLxgRTCl8KZuPjfU",
                 }
-            ]
+            ],
+            token: null
         };
     },
     methods: {
@@ -122,23 +123,29 @@ export default {
             this.processing = true;
 
             request({
-                    url: BASE_API + "Users/contacts/add",
+                    url: BASE_API + "Users/contact_add",
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { "Content-Type": "application/json" , 'Authorization': 'Bearer ' + this.token},
                     content: JSON.stringify({
                         location: this.location,
                         location_id: this.locationId,
-                        meeting_date: `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDay()}`,
-                        phone: this.phone,
+                        meeting_date: `${this.chosenDate.getFullYear()}-${this.chosenDate.getMonth()}-${this.chosenDate.getDay()}`,
+                        phone: this.phone + '',
                         nick: this.nick
                     })
                     }).then((response) => {
                         const result = response.content.toJSON();
                         this.processing = false;
+                        
+                        console.log(response);
 
-                        this.alert(
-                            "Submission successfull"
-                        );
+                        if(response.statusCode == 200) {
+                            this.$modal.close()
+                            this.error = false;
+                        }
+                        else{
+                            this.error = true;
+                        }
 
                     }, (e) => {
                         this.processing = false;
@@ -178,6 +185,8 @@ export default {
     },
     created() {
         console.log('modal created');
+
+        this.token = appSettings.getString("tok", null);
 
         var currentDate = new Date();
         var day = currentDate.getDay();

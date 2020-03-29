@@ -7,7 +7,7 @@
 
                 <GridLayout rows="auto, auto, auto">
                     <StackLayout row="0" >
-                        <TextField class="input" hint="Phone 7xx" :isEnabled="!processing"
+                        <TextField class="input" hint="Phone +254xx" :isEnabled="!processing"
                             keyboardType="phone" autocorrect="false"
                             autocapitalizationType="none" v-model="user.phone"></TextField>
                         <StackLayout class="hr-light"></StackLayout>
@@ -100,23 +100,35 @@
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     content: JSON.stringify({
-                        username: complete_phone,
+                        username: this.user.phone,
                     })
                     }).then((response) => {
                         const result = response.content.toJSON();
+
+                        console.log(response)
                         this.processing = false;
 
-                        if (!appSettings.getString("username", null)) {
+                        if(response.statusCode == 200) {
+                            if (!appSettings.getString("username", null)) {
 
-                            appSettings.setString("username", complete_phone);
+                            appSettings.setString("username", this.user.phone);
                         }
 
                         else {
                             appSettings.remove("username");
-                            appSettings.setString("username", complete_phone);
+                            appSettings.setString("username", this.user.phone);
                         }
 
                         this.$navigateTo(Code, { clearHistory: true });
+                    }
+
+                    else{
+                        this.alert(
+                            "Unfortunately we could not set up your account."
+                        );
+                    }
+
+                        
 
                     }, (e) => {
                         this.processing = false;

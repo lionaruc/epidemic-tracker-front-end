@@ -37,18 +37,10 @@
             
             <!-- Meetings -->
             <StackLayout orientation="vertical" class="m-t-30 bg-dark" v-if="true">
-                 <ListView class="list-group bg-dark" for="meeting in timeline"  style="height:100%" separatorColor="transparent" backgroundColor="#2C3251">
-                    <v-template>
-                        <GridLayout columns="100, *" rows="auto, auto, auto" class="m-l-20">
-	                        <Label :text="meeting.type" row="0" col="0" class="h1" color="#89D5E2" />
-	                        <Label :text="meeting.date" row="1" col="0" class="body p-l-15" />
-	                        <Label :text="meeting.name" row="0" col="1" class="h2 p-r-20" />
-	                        <Label :text="meeting.address" row="1" col="1" class="body p-r-20" color="#C2C8E6" />
-	                        <StackLayout class="hr-light m-y-20" row="2" col="1" v-if="!meeting.last"></StackLayout>
-							<StackLayout class="m-y-20" row="2" col="1" v-else="meeting.last"></StackLayout>
-	                    </GridLayout>
-                    </v-template>
-                </ListView> 
+                 
+
+            <Button text="Logout" :isEnabled="!processing"
+                   @tap="logout" class="btn btn-primary m-t-20"></Button>
 
                 
             </StackLayout>
@@ -144,7 +136,11 @@
         },
         methods: {
             logout() {
-                this.$backendService.logout();
+
+                appSettings.remove("tok");
+
+                appSettings.remove("username");
+
                 this.$navigateTo(Login, {
                     clearHistory: true
                 });
