@@ -1,4 +1,4 @@
-@import 'css/core.dark.css';
+@import 'css/core.light.css';
 
 .btn-primary {
   height: 50;
@@ -28,7 +28,7 @@
 }
 
 .page {
-  background-color: #2C3251;
+  background-color: white;
 }
 
 .action-bar {

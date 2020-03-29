@@ -2,7 +2,7 @@
     <Page>
         <ActionBar  actionBarHidden="true"></ActionBar>
 
-        <DockLayout stretchLastChild="true" class="bg-dark">
+        <DockLayout stretchLastChild="true" >
             <StackLayout orientation="vertical" dock="top" class="bg-dark">
                 <!-- Navigaton -->
                 <GridLayout rows="auto" columns="75,*,75" class="action-bar p-20">
@@ -20,30 +20,95 @@
                         width="24" horizontalAlignment="right" opacity="0.2"/>
                 </GridLayout>
 
+                
+
+
                 <!-- /Navigation -->
-                <GridLayout columns="*, *" rows="auto, auto" class="m-y-30 m-x-20">
+
+
+                <GridLayout columns="*, *" rows="auto, auto" style="margin: 23">
                     <!-- Date Today -->
-                    <Label text="You met" row="0" col="0" class="medium"  />                    
-
-                    <Button text="Add Contact"
-                     @tap="showModal"
-                     class="btn btn-primary" row="1" col="0" color="#C2C8E6"></Button>
-
+                    <Label :text="day" row="0" col="0" class="large" />
+                    <Label :text="month + ' ' + date + ', ' + year" row="1" col="0" class="body small"
+                        color="#C2C8E6" />
                     <!-- Spending this month -->
                     <Label text="5" row="0" col="1" class="large text-right"
                         color="#89D5E2" />
+                    <Label text="Met today" row="1" col="1" class="body small text-right"
+                        color="#89D5E2" />
+                </GridLayout>
 
-                    <Button text="Add Activity"
+
+                <GridLayout v-if="true" columns="*, *" rows="auto, auto" style="margin: 23">
+
+                    <Button text="Contact"
+                     @tap="showModal"
+                     class="btn btn-primary" row="1" col="0" color="#C2C8E6"></Button>
+
+                    
+
+                    <Button text="Activity"
                      @tap="showModal"
                      class="btn btn-primary" row="1" col="1" color="#C2C8E6"></Button>
                 </GridLayout>
+
+                
                 
                 
             </StackLayout>
 
+            <StackLayout orientation="vertical" style="height: 300; text-align: center">
+
+                <label text="Your Risk Level" style=" width: 180; color: black"/>
+                <RadRadialGauge v-if="true" style="height: 220">
+                    <RadialScale v-tkRadialGaugeScales minimum="0" maximum="6"
+                        radius="0.90">
+                        <ScaleStyle v-tkRadialScaleStyle majorTicksCount="7"
+                            minorTicksCount="9" lineThickness="0"
+                            labelsCount="7" ticksOffset="0" />
+                        <RadialBarIndicator v-tkRadialScaleIndicators
+                            minimum="0" maximum="1.2" location="0.97">
+                            <BarIndicatorStyle v-tkRadialBarIndicatorStyle
+                                fillColor="#dddddd" />
+                        </RadialBarIndicator>
+                        <RadialBarIndicator v-tkRadialScaleIndicators
+                            minimum="1.2" maximum="2.4" location="0.97">
+                            <BarIndicatorStyle v-tkRadialBarIndicatorStyle
+                                fillColor="#9DCA56" />
+                        </RadialBarIndicator>
+                        <RadialBarIndicator v-tkRadialScaleIndicators
+                            minimum="2.4" maximum="3.6" location="0.97">
+                            <BarIndicatorStyle v-tkRadialBarIndicatorStyle
+                                fillColor="#F0C44D" />
+                        </RadialBarIndicator>
+                        <RadialBarIndicator v-tkRadialScaleIndicators
+                            minimum="3.6" maximum="4.8" location="0.97">
+                            <BarIndicatorStyle v-tkRadialBarIndicatorStyle
+                                fillColor="#E27633" />
+                        </RadialBarIndicator>
+                        <RadialBarIndicator v-tkRadialScaleIndicators
+                            minimum="4.8" maximum="6" location="0.97">
+                            <BarIndicatorStyle v-tkRadialBarIndicatorStyle
+                                fillColor="#A7010E" />
+                        </RadialBarIndicator>
+                        <RadialNeedle v-tkRadialScaleIndicators
+                            value="4" />
+                    </RadialScale>
+                </RadRadialGauge>
+
+                <Button text="Self Check Quiz"
+                    class="btn btn-primary"
+                    style="background-color: red"
+                     @tap="showModal"
+                       color="#C2C8E6"></Button>
+            </StackLayout>
+
             
+
+            
+
             <!-- Meetings -->
-            <StackLayout orientation="vertical" class="m-t-30 bg-dark" v-if="true">
+            <StackLayout orientation="vertical" class="m-t-30 bg-dark" v-if="false">
                  <ListView class="list-group bg-dark" for="meeting in meetings"  style="height:100%" separatorColor="transparent" backgroundColor="#2C3251">
                     <v-template>
                         <GridLayout columns="100, *" rows="auto, auto, auto" class="m-l-20">
@@ -65,17 +130,28 @@
 </template>
 
 <script>
+
+    import Vue from "nativescript-vue";
+    import RadRadialGauge from "nativescript-ui-gauge/vue";
+    Vue.use(RadRadialGauge);
+
+
     import Login from "./Login";
 
     
 
     import TimeLine from "./TimeLine";
 
+     import Gauge from "./Gauge";
+
     import ContactModal from "./ContactModal";
 
     const appSettings = require("tns-core-modules/application-settings");
 
     export default {
+        components: {
+            Gauge: 'gauge'
+        },
         data() {
             return {
                 username: '',

@@ -12,7 +12,7 @@
                             keyboardType="phone" autocorrect="false"
                             autocapitalizationType="none" v-model="user.password"
                             returnKeyType="next" @returnPress="focusPassword"></TextField>
-                        <StackLayout class="hr-light"></StackLayout>
+                        <StackLayout class="hr-dark"></StackLayout>
                     </StackLayout>
 
                     <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
