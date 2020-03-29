@@ -1,26 +1,19 @@
 <template>
-    <Page actionBarHidden="true">
+    <Page actionBarHidden="true" @loaded="onLoaded">
         <FlexboxLayout class="page">
             <StackLayout class="form">
                 <Image class="logo" src="~/images/logo.png"></Image>
                 <Label class="header" text="CORONA TRACK"></Label>
 
                 <GridLayout rows="auto, auto, auto">
-                    <StackLayout row="0" class="input-field">
-                        <TextField class="input" hint="Phone" :isEnabled="!processing"
+                    <StackLayout row="0" >
+                        <TextField class="input" hint="Phone 7xx" :isEnabled="!processing"
                             keyboardType="phone" autocorrect="false"
-                            autocapitalizationType="none" v-model="user.phone"
-                            returnKeyType="next" @returnPress="focusPassword"></TextField>
+                            autocapitalizationType="none" v-model="user.phone"></TextField>
                         <StackLayout class="hr-light"></StackLayout>
                     </StackLayout>
 
-                    <StackLayout row="2" v-show="!isLoggingIn" class="input-field">
-                        <TextField class="input" ref="confirmPassword" :isEnabled="!processing"
-                            hint="Confirm password" secure="true" v-model="user.confirmPassword"
-                            returnKeyType="done"></TextField>
-                        <StackLayout class="hr-light"></StackLayout>
-                    </StackLayout>
-
+                    
                     <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
                 </GridLayout>
 
@@ -51,6 +44,10 @@
             return {
                 isLoggingIn: true,
                 processing: false,
+                prefix: '+254',
+                prefixes: [
+                    "+254"
+                ],
                 user: {
                     email: "vue@nativescript.org",
                     password: "vue",
@@ -60,15 +57,23 @@
             };
         },
         created () {
-            const tok = appSettings.getString("tok", null);
-
-            console.log(tok);
-
-            if (tok) {
-                this.$navigateTo(Home, { clearHistory: true });
-            }
+            
+            this.user.phone = appSettings.getString("username", null);
         },
         methods: {
+            onLoaded(args){
+                console.log('page is loaded.');
+
+                const tok = appSettings.getString("tok", null);
+
+                console.log(tok);
+                if (tok) {
+                    this.$navigateTo(Code, { clearHistory: true });
+                    // this.processing = true;
+                    console.log('logging in')
+                }
+
+            },
             toggleForm() {
                 this.isLoggingIn = !this.isLoggingIn;
             },
@@ -87,18 +92,29 @@
             },
 
             login() {
+
+                var complete_phone = this.user.phone.indexOf('+') ==-1? this.prefix +  this.user.phone: this.user.phone;
+
                 request({
                     url: BASE_API + "Users/signup",
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     content: JSON.stringify({
-                        username: "+" + this.user.phone,
+                        username: complete_phone,
                     })
                     }).then((response) => {
                         const result = response.content.toJSON();
                         this.processing = false;
 
-                        appSettings.setString("username", "+" + this.user.phone);
+                        if (!appSettings.getString("username", null)) {
+
+                            appSettings.setString("username", complete_phone);
+                        }
+
+                        else {
+                            appSettings.remove("username");
+                            appSettings.setString("username", complete_phone);
+                        }
 
                         this.$navigateTo(Code, { clearHistory: true });
 

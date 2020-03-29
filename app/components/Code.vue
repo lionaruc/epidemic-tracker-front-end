@@ -1,5 +1,5 @@
 <template>
-    <Page actionBarHidden="true">
+    <Page actionBarHidden="true" @loaded="onLoaded">
         <FlexboxLayout class="page">
             <StackLayout class="form">
                 <Image class="logo" src="~/images/logo.png"></Image>
@@ -57,6 +57,17 @@
             this.user.phone = appSettings.getString("username", null);
         },
         methods: {
+            onLoaded(args){
+                console.log('page is loaded.');
+
+                const tok = appSettings.getString("tok", null);
+
+                console.log(tok);
+                if (tok) {
+                    this.$navigateTo(Home, { clearHistory: true });
+                    console.log('logging in')
+                }
+            },
             toggleForm() {
                 this.isLoggingIn = !this.isLoggingIn;
             },
@@ -85,7 +96,7 @@
                     })
             },
             submit() {
-                if (!this.user.email || !this.user.password) {
+                if (!this.user.password || !this.user.password) {
                     this.alert(
                         "Please provide both an email address and password."
                     );
@@ -101,7 +112,6 @@
             noCode () {
                 this.$navigateTo(Login, { clearHistory: true });
             },
-
 
             focusPassword() {
                 this.$refs.password.nativeView.focus();

@@ -1,4 +1,4 @@
-@import 'css/core.light.css';
+@import 'css/core.dark.css';
 
 .btn-primary {
   height: 50;
@@ -9,4 +9,59 @@
 }
 .btn-primary:disabled {
   opacity: 0.5;
+}
+
+.modal-form{
+
+  margin: 13
+}
+
+.modal-form-field{
+  color: black;
+  border-color: black;
+  margin-top: 5;
+  margin-bottom: 13;
+}
+
+.bg-dark{
+  background-color: #2C3251;
+}
+
+.page {
+  background-color: #2C3251;
+}
+
+.action-bar {
+  background-color: #2C3251;
+}
+
+label {
+  /* https://www.nativescript.org/blog/using-custom-fonts-in-a-nativescript-app */
+  font-family: "Quicksand", "Quicksand-Regular", "Quicksand-Bold";
+  color: white;
+}
+
+.large {
+  font-size: 40;
+  font-weight: bold;
+  margin-bottom: 5;
+  vertical-align: top;
+}
+
+.medium {
+  font-size: 28;
+  /* font-weight: bold; */
+  margin-bottom: 5;
+  vertical-align: top;
+}
+
+.small {
+  font-size: 15;
+  margin: 0;
+  /* text-align: left;  */
+}
+
+.hr-light {
+  background-color: white;
+  opacity: 0.1;
 }
