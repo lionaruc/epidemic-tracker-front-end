@@ -5,7 +5,7 @@
         <DockLayout stretchLastChild="true" >
             <StackLayout orientation="vertical" dock="top" class="bg-dark">
                 <!-- Navigaton -->
-                <GridLayout rows="auto" columns="75,*,75" class="action-bar p-20">
+                <GridLayout rows="auto" columns="75,*,75" class="action-bar p-20" dock="bottom">
                     <Image src="~/images/iconToday.png" class="action-item" row="0"
                         col="0"  stretch="aspectFit"
                         width="24" horizontalAlignment="left" />
@@ -21,20 +21,16 @@
                 </GridLayout>
 
                 
-
-
                 <!-- /Navigation -->
-
-
                 <GridLayout columns="*, *" rows="auto, auto" style="margin: 23">
                     <!-- Date Today -->
                     <Label :text="day" row="0" col="0" class="large" />
                     <Label :text="month + ' ' + date + ', ' + year" row="1" col="0" class="body small"
                         color="#C2C8E6" />
                     <!-- Spending this month -->
-                    <Label text="5" row="0" col="1" class="large text-right"
-                        color="#89D5E2" />
-                    <Label text="Met today" row="1" col="1" class="body small text-right"
+                    <Label text="555" row="0" col="1" class="large text-right"
+                        color="#89D5E2"  />
+                    <Label text="activities today" row="1" col="1" class="small text-right body"
                         color="#89D5E2" />
                 </GridLayout>
 
@@ -45,15 +41,11 @@
                      @tap="showModal"
                      class="btn btn-primary" row="1" col="0" color="#C2C8E6"></Button>
 
-                    
-
+    
                     <Button text="Activity"
                      @tap="showModal"
                      class="btn btn-primary" row="1" col="1" color="#C2C8E6"></Button>
                 </GridLayout>
-
-                
-                
                 
             </StackLayout>
 
@@ -99,7 +91,7 @@
                 <Button text="Self Check Quiz"
                     class="btn btn-primary"
                     style="background-color: red"
-                     @tap="showModal"
+                     @tap="openForm"
                        color="#C2C8E6"></Button>
             </StackLayout>
 
@@ -142,7 +134,7 @@
 
     import TimeLine from "./TimeLine";
 
-     import Gauge from "./Gauge";
+    import QuizView from "./QuizView";
 
     import ContactModal from "./ContactModal";
 
@@ -150,7 +142,6 @@
 
     export default {
         components: {
-            Gauge: 'gauge'
         },
         data() {
             return {
@@ -233,6 +224,17 @@
         methods: {
             showModal() {
                 this.$showModal(ContactModal);
+            },   
+            openForm() {
+                this.$navigateTo(QuizView, {
+                    transition: {
+                    name:'fade',
+                    duration: 1200
+                    },
+                    props: {
+                        quizid: 1, 
+                    }
+                });
             },   
             logout() {
                 this.$backendService.logout();
