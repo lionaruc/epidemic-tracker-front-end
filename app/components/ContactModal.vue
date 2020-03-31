@@ -12,6 +12,7 @@
                             returnKeyType="next"></TextField>
                         <StackLayout class="hr-dark"></StackLayout>
             </StackLayout>
+
  
             <StackLayout class="modal-form-field">
                 <Label text="When did you meet them?" style="color: black; margin-bottom: 13px;"/>
@@ -129,7 +130,7 @@ export default {
                     content: JSON.stringify({
                         location: this.location,
                         location_id: this.locationId,
-                        meeting_date: `${this.chosenDate.getFullYear()}-${this.chosenDate.getMonth()}-${this.chosenDate.getDay()}`,
+                        meeting_date: `${this.chosenDate.getFullYear()}-${this.chosenDate.getMonth() + 1}-${this.chosenDate.getDate()}`,
                         phone: this.phone + '',
                         nick: this.nick
                     })

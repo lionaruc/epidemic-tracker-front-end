@@ -58,7 +58,7 @@
         },
         created () {
             
-            this.user.phone = appSettings.getString("username", null);
+            // this.user.phone = appSettings.getString("username", null);
         },
         methods: {
             onLoaded(args){
@@ -93,8 +93,6 @@
 
             login() {
 
-                var complete_phone = this.user.phone.indexOf('+') ==-1? this.prefix +  this.user.phone: this.user.phone;
-
                 request({
                     url: BASE_API + "Users/signup",
                     method: "POST",
@@ -105,21 +103,14 @@
                     }).then((response) => {
                         const result = response.content.toJSON();
 
-                        console.log(response)
+                        console.log(result)
                         this.processing = false;
 
                         if(response.statusCode == 200) {
-                            if (!appSettings.getString("username", null)) {
 
                             appSettings.setString("username", this.user.phone);
-                        }
 
-                        else {
-                            appSettings.remove("username");
-                            appSettings.setString("username", this.user.phone);
-                        }
-
-                        this.$navigateTo(Code, { clearHistory: true });
+                            this.$navigateTo(Code, { clearHistory: true });
                     }
 
                     else{

@@ -88,6 +88,7 @@
                         
                         if(response.statusCode == 200) {
                             appSettings.setString("tok", result.token);
+                            appSettings.setString("userid", result.id + '');
 
                             this.$navigateTo(Home, { clearHistory: true });
                         }
