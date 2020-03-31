@@ -27,6 +27,10 @@
   background-color: #2C3251;
 }
 
+.bg-primary{
+  background-color: #3498db;
+}
+
 .page {
   background-color: white;
 }

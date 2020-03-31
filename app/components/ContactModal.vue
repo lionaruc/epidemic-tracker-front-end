@@ -20,7 +20,6 @@
                 <DatePicker :year="currentYear" @dateChange="dateChanged($event)"
                     :month="currentMonth" :day="currentDay"
                     minDate="1970-01-01"  style="height: 100;margin-bottom: 23px;" class="date-picker"/>
-
             </StackLayout>
 
             <StackLayout >
@@ -165,10 +164,9 @@ export default {
             let searchBar = args.object;
 
             const processedPhrase = searchBar.text.replace(' ', '+')
-
-            this.locations = this.fakeLocs // result.predictions;
+            //this.locations = this.fakeLocs // result.predictions;
             this.processing = false;
-            /*request({
+            request({
                     url:  `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${processedPhrase}&key=${GKEY}`,
                     method: "GET",
                     }).then((response) => {
@@ -181,7 +179,7 @@ export default {
                         this.alert(
                             "Unfortunately we could not set up your search."
                         );
-                    })*/
+                    })
         }
     },
     created() {

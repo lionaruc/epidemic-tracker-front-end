@@ -100,7 +100,7 @@
                     </StackLayout>
                 
                 
-            </StackLayout>   
+                    </StackLayout>   
 
             
             
@@ -109,9 +109,41 @@
                         </TabContentItem>
                         <TabContentItem>
                             <GridLayout>
-                                <Label text="Settings Page"
-                                    class="h2 text-center">
-                                </Label>
+
+                                <StackLayout orientation="vertical">
+
+                                    <GridLayout columns="*, *" rows="auto, auto" v-if="!processing" style="height: 120; padding: 23"  class="bg-dark">
+                                    
+                                        <Label text="Activities" row="0" col="0" class="medium" />
+                                        
+                                        <Label :text="month + ' ' + date + ', ' + year" row="1" col="0" class="body small"
+                                            color="#C2C8E6" />
+                            
+                                        
+
+                                    </GridLayout>
+                                <ScrollView>
+
+                                        <StackLayout >
+                                            <Card>
+                                                <template v-slot:header>
+
+                                                  <label>Vue is the best</label>
+
+                                                </template>
+                                            </Card>
+
+                                        <Card>hhh</Card>
+
+                                        <Card>hhh</Card>
+
+                                        <Card>hhh</Card>
+                                        </StackLayout>
+
+                                
+                                        
+		                        </ScrollView>
+                                 </StackLayout>
                             </GridLayout>
                         </TabContentItem>
                         <TabContentItem>
@@ -147,6 +179,8 @@
 
     import Login from "./Login";
 
+    import Card from "./Card";
+
     import TimeLine from "./TimeLine";
 
     import QuizView from "./QuizView";
@@ -157,10 +191,12 @@
 
     export default {
         components: {
+            Card
         },
         data() {
             return {
                 processing: true,
+                processingActivities: true,
                 summary: null,
                 token: null,
                 userid: null,
