@@ -22,20 +22,20 @@
 
                 
                 <!-- /Navigation -->
-                <GridLayout columns="*, *" rows="auto, auto" style="margin: 23">
+                <GridLayout columns="*, *" rows="auto, auto" style="margin: 23" v-if="!processing">
                     <!-- Date Today -->
                     <Label :text="day" row="0" col="0" class="large" />
                     <Label :text="month + ' ' + date + ', ' + year" row="1" col="0" class="body small"
                         color="#C2C8E6" />
                     <!-- Spending this month -->
-                    <Label text="555" row="0" col="1" class="large text-right"
+                    <Label :text="summary.meetings_today" row="0" col="1" class="large text-right"
                         color="#89D5E2"  />
-                    <Label text="activities today" row="1" col="1" class="small text-right body"
+                    <Label text="contacts today" row="1" col="1" class="small text-right body"
                         color="#89D5E2" />
                 </GridLayout>
 
 
-                <GridLayout v-if="true" columns="*, *" rows="auto, auto" style="margin: 23">
+                <GridLayout v-if="!processing" columns="*, *" rows="auto, auto" style="margin: 23">
 
                     <Button text="Contact"
                      @tap="showModal"
@@ -49,9 +49,9 @@
                 
             </StackLayout>
 
-            <StackLayout orientation="vertical" style="height: 300; text-align: center">
+            <StackLayout orientation="vertical" style="height: 300; text-align: center" v-if="!processing">
 
-                <label text="Your Risk Level" style=" width: 180; color: black"/>
+                <label :text="percentageDescription" style=" width: 180; color: black"/>
                 <RadRadialGauge v-if="true" style="height: 220">
                     <RadialScale v-tkRadialGaugeScales minimum="0" maximum="6"
                         radius="0.90">
@@ -84,7 +84,7 @@
                                 fillColor="#A7010E" />
                         </RadialBarIndicator>
                         <RadialNeedle v-tkRadialScaleIndicators
-                            value="4" />
+                            :value="percentage" />
                     </RadialScale>
                 </RadRadialGauge>
 
@@ -95,42 +95,25 @@
                        color="#C2C8E6"></Button>
             </StackLayout>
 
-            
+            <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
 
-            
-
-            <!-- Meetings -->
-            <StackLayout orientation="vertical" class="m-t-30 bg-dark" v-if="false">
-                 <ListView class="list-group bg-dark" for="meeting in meetings"  style="height:100%" separatorColor="transparent" backgroundColor="#2C3251">
-                    <v-template>
-                        <GridLayout columns="100, *" rows="auto, auto, auto" class="m-l-20">
-	                        <Label :text="meeting.type" row="0" col="0" class="h1" color="#89D5E2" />
-	                        <Label :text="meeting.date" row="1" col="0" class="body p-l-15" />
-	                        <Label :text="meeting.name" row="0" col="1" class="h2 p-r-20" />
-	                        <Label :text="meeting.address" row="1" col="1" class="body p-r-20" color="#C2C8E6" />
-	                        <StackLayout class="hr-light m-y-20" row="2" col="1" v-if="!meeting.last"></StackLayout>
-							<StackLayout class="m-y-20" row="2" col="1" v-else="meeting.last"></StackLayout>
-	                    </GridLayout>
-                    </v-template>
-                </ListView> 
-                
-            </StackLayout>
-            <!-- /Meetings -->
             
         </DockLayout>
     </Page>
 </template>
 
 <script>
+    import { getFile, getImage, getJSON, getString, request, HttpResponse } from "tns-core-modules/http";
 
+
+
+    import {BASE_API} from '../common/constants';
     import Vue from "nativescript-vue";
     import RadRadialGauge from "nativescript-ui-gauge/vue";
     Vue.use(RadRadialGauge);
 
 
     import Login from "./Login";
-
-    
 
     import TimeLine from "./TimeLine";
 
@@ -145,43 +128,17 @@
         },
         data() {
             return {
+                processing: true,
+                summary: null,
+                token: null,
                 username: '',
-                meetings: [{
-                        name: "John Oliver",
-                        address: "Mama Ngina's",
-                        type: "Meet",
-                        date: "2h ago"
-                    },
-                    {
-                        name: "Citi Hopa",
-                        address: "BS, Nairobi",
-                        type: "Ride",
-                        date: "3h ago"
-                    },
-                    {
-                        name: "Uber",
-                        address: "Muindi Mbingu",
-                        type: "Ride",
-                        date: "3h ago"
-                    },
-                    {
-                        name: "Metro",
-                        address: "Kenya Archives",
-                        type: "Ride",
-                        date: "3h ago"
-                    },
-                    {
-                        name: "Citi Hopa",
-                        address: "Kenya Archives",
-                        type: "Ride",
-                        date: "3h ago"
-                    },
-                ],
                 message: `Welcome`
             };
         },
         
         created() {
+
+            this.token = appSettings.getString("tok", null);
             // second parameter is default value
             this.message = 'Welcome' + appSettings.getString("username", null);
             this.username = appSettings.getString("username", null);
@@ -220,8 +177,40 @@
 
             var monthName = month[currentDate.getMonth()];
             this.month = monthName;
+
+            this.loadSummary();
         },
         methods: {
+            loadSummary () {
+                var addr = `${BASE_API}Users/user_summary/1`
+                console.log(addr)
+                request({
+                    url: addr,
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" , 'Authorization': 'Bearer ' + this.token},
+                    }).then((response) => {
+                        const result = response.content.toJSON();
+
+                        console.log(result);
+                         
+                        if(response.statusCode == 200) {
+
+                            this.summary = result;
+
+                            this.percentage = (6 - (this.summary.latest_score_numeric / 100) * 6)
+
+                            this.percentageDescription = this.summary.latest_score_title;
+                        }
+
+                        this.processing = false;
+
+                    }, (e) => {
+                        // this.processing = false;
+                        this.alert(
+                            "Unfortunately we could not fetch your data."
+                        );
+                    })
+            },
             showModal() {
                 this.$showModal(ContactModal);
             },   
@@ -232,7 +221,7 @@
                     duration: 1200
                     },
                     props: {
-                        quizid: 1, 
+                        quizid: this.summary.active_quiz_id, 
                     }
                 });
             },   

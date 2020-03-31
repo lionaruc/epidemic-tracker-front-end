@@ -106,9 +106,9 @@ export default {
         dateChanged (arg) {
             console.log(arg.value);
 
-            var newDate = new Date(arg.value);
+            // var newDate = new Date(arg.value);
 
-            this.chosenDate = newDate;
+            this.chosenDate = arg.value;
         },
         onTextClear () {
             this.textCleared = true

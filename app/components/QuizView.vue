@@ -5,10 +5,10 @@
         <ScrollView >
             <StackLayout  v-if="!processing && !completed">
                 <StackLayout
-                         v-for="question in items" :key="question.position"  style="margin: 13;">
+                         v-for="question in items" :key="question.position"  style="margin: 13; margin-left: 33; margin-right: 33; height: 190">
                         
                         <Label   :text="(question.postion) + '. ' + question.question_text" 
-                              textWrap="true" style="margin: 3; color: black;"  colo/>
+                              textWrap="true" style="margin: 3; color: black;"  />
 
                         <ListPicker :items="question.display_answers"
                                 v-model="question.selectedIndex" style="margin: 5"/>
