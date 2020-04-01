@@ -4,7 +4,7 @@
         <Label class="h2 text-center" text="Add a contact" style="color: black"/>
 
         <StackLayout class="modal-form">
-		    
+		    <Label text="Who did you meet?" style="color: black; margin-bottom: 7px;"/>
             <StackLayout class="modal-form-field">
                         <TextField class="input" hint="Phone eg. +254xx"
                             keyboardType="phone" autocorrect="false"
@@ -20,36 +20,42 @@
                 <DatePicker :year="currentYear" @dateChange="dateChanged($event)"
                     :month="currentMonth" :day="currentDay"
                     minDate="1970-01-01"  style="height: 100;margin-bottom: 23px;" class="date-picker"/>
+
+                <StackLayout class="hr-dark"></StackLayout>
             </StackLayout>
 
             <StackLayout >
                 <Label text="Where did you meet them?" style="color: black; margin-bottom: 13px;"/>
                         <SearchBar hint="Type in a location" :text="searchPhrase"
-                            @submit="searchSubmit" @clear="onTextClear" style="background-color: white"/>
+                            @submit="searchSubmit" @clear="onTextClear" style=""/>
                         <StackLayout class="hr-dark"></StackLayout>
 
 
-                    <StackLayout  style="height: 100; margin-top: 11px;" v-if="!location && !textCleared">
-                        <Label v-for="location in locations" :text="location.description" @tap="locationSelected(location.place_id, location.description)" style="color: black; margin: 7;"/>
+                    <StackLayout  style="height: 100; margin-top: -13px; background-color: #2C3251" v-if="!location && !textCleared">
+                        <Label v-for="location in locations" :text="location.description" @tap="locationSelected(location.place_id, location.description)" style="color: white; margin: 7;"/>
                     </StackLayout>
 
+                    
                     
             </StackLayout>
 
             <StackLayout class="modal-form-field">
-                <Label v-if="location" :text="'Location: ' + location" style="color: black; margin-bottom: 13px; margin-top: 33px;"/>
+                <Label v-if="location" :text="'' + location" style="color: black; margin-bottom: 13px; margin-top: 33px;" textWrap="true"/>
+                
+                <StackLayout class="hr-dark"></StackLayout>
+            
             </StackLayout>
             
         </StackLayout>
 
-        <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
+        <ActivityIndicator rowSpan="7" :busy="processing"></ActivityIndicator>
 
         <Button v-if="phone && nick && location && chosenDate && !processing" class="btn btn-outline" text="Save Contact" @tap="submitContact"/>
-        <Label v-if="!chosenDate" text="* Please pick a date" style="color: red; margin: 13"></Label>
+        <Label v-if="!chosenDate" text="* Please pick a date" style="color: red; margin: 5"></Label>
 
-        <Label v-if="!phone" text="* Please pick a phone number" style="color: red; margin: 13"></Label>
+        <Label v-if="!phone" text="* Please pick a phone number" style="color: red; margin: 5"></Label>
 
-        <Label v-if="error" text="Sorry, request failed, try again" style="color: red; margin: 13"></Label>
+        <Label v-if="error" text="Sorry, request failed, try again" style="color: red; margin: 5"></Label>
 
 		<Button class="btn btn-outline" text="Close Modal" @tap="$modal.close()" />
 	</StackLayout>
@@ -199,11 +205,11 @@ export default {
 
 <style>
 .date-picker {
-    background-color: olivedrab;
-    border-color: burlywood;
+    background-color: white;
+    border-color: black;
     border-width: 2;
     border-radius: 10;
-    color: whitesmoke;
+    color: black;
     vertical-align: middle;
 }
 </style>

@@ -26,7 +26,7 @@
 
                                     <GridLayout columns="*, *" rows="auto, auto" v-if="!processing" style="height: 120; padding: 23"  class="bg-dark">
                                     
-                                        <Label :text="day" row="0" col="0" class="large" />
+                                        <Label :text="day" row="0" col="0" class="medium" />
                                         <Label :text="month + ' ' + date + ', ' + year" row="1" col="0" class="body small"
                                             color="#C2C8E6" />
                             
@@ -95,7 +95,7 @@
                         @tap="openForm"
                         color="#C2C8E6"></Button>
 
-                    
+                    <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
 
                     </StackLayout>
                 
@@ -122,22 +122,23 @@
                                         
 
                                     </GridLayout>
-                                <ScrollView>
+                                <ScrollView v-if="!processingActivities">
 
                                         <StackLayout >
-                                            <Card>
+                                            <Card v-for="contact in contacts" :key="contact.dt" :score="contact.contactee_score">
                                                 <template v-slot:header>
+                                                    <StackLayout class="card-header">
+                                                        <label >{{contact.dt}}</label>
+                                                  </StackLayout>
+                                                </template>
 
-                                                  <label>Vue is the best</label>
-
+                                                <template v-slot:content>
+                                                    <StackLayout class="card-content">
+                                                        <label>{{contact.contactee_usn}}</label>
+                                                    </StackLayout>
                                                 </template>
                                             </Card>
 
-                                        <Card>hhh</Card>
-
-                                        <Card>hhh</Card>
-
-                                        <Card>hhh</Card>
                                         </StackLayout>
 
                                 
@@ -148,9 +149,9 @@
                         </TabContentItem>
                         <TabContentItem>
                             <GridLayout>
-                                <Label text="Search Page"
-                                    class="h2 text-center">
-                                </Label>
+                                <Button text="Logout" :isEnabled="!processing"
+                   @tap="logout" class="btn btn-primary m-t-20"></Button>
+                            
                             </GridLayout>
                         </TabContentItem>
                     </Tabs>
@@ -159,7 +160,7 @@
 
             
 
-            <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
+            
 
             
         </StackLayout>
@@ -198,6 +199,7 @@
                 processing: true,
                 processingActivities: true,
                 summary: null,
+                contacts: [],
                 token: null,
                 userid: null,
                 username: '',
@@ -250,6 +252,7 @@
             this.month = monthName;
 
             this.loadSummary();
+            this.loadContacts();
         },
         methods: {
             loadSummary () {
@@ -282,6 +285,29 @@
                         );
                     })
             },
+            loadContacts () {
+                var addr = `${BASE_API}Users/user_contacts/${this.userid}`
+                console.log(addr)
+                request({
+                    url: addr,
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" , 'Authorization': 'Bearer ' + this.token},
+                    }).then((response) => {
+                        const result = response.content.toJSON();
+
+                        console.log(result);
+                         
+                        if(response.statusCode == 200) {
+
+                            this.contacts = result.meetings;
+                        }
+
+                        this.processingActivities = false;
+
+                    }, (e) => {
+                        // this.processing = false;
+                    })
+            },
             showModal() {
                 this.$showModal(ContactModal);
             },   
@@ -297,7 +323,11 @@
                 });
             },   
             logout() {
-                this.$backendService.logout();
+
+                appSettings.remove("tok");
+
+                appSettings.remove("username");
+
                 this.$navigateTo(Login, {
                     clearHistory: true
                 });
