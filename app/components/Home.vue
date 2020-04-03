@@ -1,10 +1,9 @@
 <template>
-    <Page>
-        <ActionBar  actionBarHidden="true"></ActionBar>
+    <Page actionBarHidden="true">
 
-        <StackLayout stretchLastChild="true" >
+        <StackLayout >
 
-            <Tabs height="1200" tabsPosition="bottom">
+            <Tabs height="100%" tabsPosition="bottom">
                         <TabStrip>
                             <TabStripItem>
                                 <Label text="Home" style="color: black" v-if="false"></Label>
@@ -18,13 +17,17 @@
                                 <Label text="Search" v-if="false"></Label>
                                 <Image src="res://search"></Image>
                             </TabStripItem>
+                            <TabStripItem>
+                                <Label text="Search" v-if="false"></Label>
+                                <Image src="res://browse"></Image>
+                            </TabStripItem>
                         </TabStrip>
 
                         <TabContentItem>
                             <GridLayout>
-                                <StackLayout orientation="vertical">
+                                <StackLayout orientation="vertical" style="height: 100%">
 
-                                    <GridLayout columns="*, *" rows="auto, auto" v-if="!processing" style="height: 120; padding: 23"  class="bg-dark">
+                                    <GridLayout columns="*, *" rows="auto, auto" v-if="!processing" style="height: 24%; padding: 23" class="bg-dark" >
                                     
                                         <Label :text="day" row="0" col="0" class="medium" />
                                         <Label :text="month + ' ' + date + ', ' + year" row="1" col="0" class="body small"
@@ -34,26 +37,24 @@
                                             color="#89D5E2"  />
                                         <Label text="contacts today" row="1" col="1" class="small text-right body"
                                             color="#89D5E2" />
-
                                     </GridLayout>
 
-                                    <GridLayout columns="*, *" rows="auto, auto" v-if="!processing" style="height: 120; padding: 23"  class="bg-dark">
+                                    <GridLayout columns="*, *" rows="auto, auto" v-if="!processing" style="height: 15%; margin-bottom: 2%"  class="bg-dark">
 
                                         <Button text="Contact"
                                             @tap="showModal"
-                                            class="btn btn-primary" row="1" col="0" color="#C2C8E6" style="margin-top: 1"></Button>
+                                            class="btn btn-primary" row="1" col="0" color="#C2C8E6" style=" margin-left: 23; margin-top: 1; margin-bottom: 1"></Button>
 
                                         <Button text="Activity"
                                             @tap="showModal"
-                                            class="btn btn-primary" row="1" col="1" color="#C2C8E6" style="margin-top: 1"></Button>
+                                            class="btn btn-primary" row="1" col="1" color="#C2C8E6" style="margin-top: 1; margin-left: 5;  margin-bottom: 1"></Button>
 
                                     </GridLayout>
 
-
-                                <StackLayout orientation="vertical" style="height: 380; text-align: center" v-if="!processing">
+                                <StackLayout orientation="vertical" style="text-align: center" v-if="!processing" class="home-height-main">
 
                                 <label :text="percentageDescription" style=" width: 180; color: black"/>
-                                <RadRadialGauge v-if="true" style="height: 220">
+                                <RadRadialGauge v-if="true" style="height: 60%">
                                     <RadialScale v-tkRadialGaugeScales minimum="0" maximum="6"
                                         radius="0.90">
                                     <ScaleStyle v-tkRadialScaleStyle majorTicksCount="7"
@@ -102,9 +103,6 @@
                 
                     </StackLayout>   
 
-            
-            
-            
                             </GridLayout>
                         </TabContentItem>
                         <TabContentItem>
@@ -150,18 +148,18 @@
                         <TabContentItem>
                             <GridLayout>
                                 <Button text="Logout" :isEnabled="!processing"
-                   @tap="logout" class="btn btn-primary m-t-20"></Button>
+                                @tap="logout" class="btn btn-primary m-t-20"></Button>
+                            
+                            </GridLayout>
+                        </TabContentItem>
+
+                        <TabContentItem>
+                            <GridLayout>
+                                <WebView height="1200px" :src="webviewSrc" />
                             
                             </GridLayout>
                         </TabContentItem>
                     </Tabs>
-
-            
-
-            
-
-            
-
             
         </StackLayout>
     </Page>
@@ -172,7 +170,7 @@
 
 
 
-    import {BASE_API} from '../common/constants';
+    import {BASE_API, GKEY} from '../common/constants';
     import Vue from "nativescript-vue";
     import RadRadialGauge from "nativescript-ui-gauge/vue";
     Vue.use(RadRadialGauge);
@@ -190,6 +188,7 @@
 
     const appSettings = require("tns-core-modules/application-settings");
 
+
     export default {
         components: {
             Card
@@ -203,13 +202,17 @@
                 token: null,
                 userid: null,
                 username: '',
-                message: `Welcome`
+                message: `Welcome`,
+                isPhone: null,
+                webviewSrc: null
             };
         },
-        
         created() {
 
+
             this.token = appSettings.getString("tok", null);
+
+            this.webviewSrc = `https://imagemagikassets.s3.eu-central-1.amazonaws.com/maps_disp.html?key=${GKEY}&tok=${this.token}`
 
             this.userid = appSettings.getString("userid", null);
             // second parameter is default value
@@ -337,11 +340,14 @@
                 this.$navigateTo(TimeLine, {
                     clearHistory: true
                 });
-                
             }
         }
     };
 </script>
 
 <style>
+.home-height-main {
+  height: 63%
+}
+
 </style>

@@ -3,24 +3,25 @@
         <FlexboxLayout class="page">
             <StackLayout class="form">
                 <Image class="logo" src="~/images/logo.png"></Image>
-                <Label class="header" text="CORONA TRACK"></Label>
+                <Label class="header" text="Trace"></Label>
 
                 <GridLayout rows="auto, auto, auto">
-                    <StackLayout row="0" >
-                        <TextField class="input" hint="Phone +254xx" :isEnabled="!processing"
+                    <StackLayout orientation="horizontal" row="0">
+                        <ListPicker :items="prefixes"
+                                v-model="selectedIndex" style="margin:5; width: 70; height: 60"/>
+
+                        <TextField class="input" hint="7xxxxxx" :isEnabled="!processing"
                             keyboardType="phone" autocorrect="false"
-                            autocapitalizationType="none" v-model="user.phone"></TextField>
-                        <StackLayout class="hr-light"></StackLayout>
+                            autocapitalizationType="none" v-model="user.phone" style="width: 180"></TextField>
+                        
                     </StackLayout>
 
-                    
                     <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
                 </GridLayout>
 
                 <Button :text="isLoggingIn ? 'Send Code' : 'Sign Up'" :isEnabled="!processing"
                     @tap="submit" class="btn btn-primary m-t-20"></Button>
 
-               
             </StackLayout>
 
             
@@ -48,6 +49,7 @@
                 prefixes: [
                     "+254"
                 ],
+                selectedIndex: 0,
                 user: {
                     email: "vue@nativescript.org",
                     password: "vue",
@@ -93,12 +95,14 @@
 
             login() {
 
+                var complete_phone = this.prefix + this.user.phone;
+
                 request({
                     url: BASE_API + "Users/signup",
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     content: JSON.stringify({
-                        username: this.user.phone,
+                        username: complete_phone,
                     })
                     }).then((response) => {
                         const result = response.content.toJSON();
@@ -108,7 +112,7 @@
 
                         if(response.statusCode == 200) {
 
-                            appSettings.setString("username", this.user.phone);
+                            appSettings.setString("username", complete_phone);
 
                             this.$navigateTo(Code, { clearHistory: true });
                     }

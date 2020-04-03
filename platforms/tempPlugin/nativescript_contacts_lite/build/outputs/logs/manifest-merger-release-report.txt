@@ -1,0 +1,39 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:1-5:12
+INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:1-5:12
+INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:1-5:12
+INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:1-5:12
+INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:1-5:12
+INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:1-5:12
+INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:1-5:12
+	package
+		ADDED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:70-122
+		INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml
+		INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml
+		ADDED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:1-5:12
+		INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml
+		ADDED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:1-5:12
+		INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.READ_CONTACTS
+ADDED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:3:3-69
+	android:name
+		ADDED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:3:20-67
+uses-permission#android.permission.GET_ACCOUNTS
+ADDED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:4:3-68
+	android:name
+		ADDED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml:4:20-66
+uses-sdk
+INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml
+INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml
+		ADDED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml
+		INJECTED from /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/tempPlugin/nativescript_contacts_lite/src/main/AndroidManifest.xml

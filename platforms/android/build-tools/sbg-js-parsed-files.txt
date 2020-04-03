@@ -1,0 +1,4 @@
+/home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/android/app/src/main/assets/app/runtime.js
+/home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/android/app/src/main/assets/app/vendor.js
+/home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/android/app/src/main/assets/app/tns-java-classes.js
+/home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/android/app/src/main/assets/app/bundle.js

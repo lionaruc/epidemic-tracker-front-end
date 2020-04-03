@@ -4,13 +4,14 @@
         <Label class="h2 text-center" text="Add a contact" style="color: black"/>
 
         <StackLayout class="modal-form">
-		    <Label text="Who did you meet?" style="color: black; margin-bottom: 7px;"/>
-            <StackLayout class="modal-form-field">
-                        <TextField class="input" hint="Phone eg. +254xx"
-                            keyboardType="phone" autocorrect="false"
-                            autocapitalizationType="none" v-model="phone"
-                            returnKeyType="next"></TextField>
-                        <StackLayout class="hr-dark"></StackLayout>
+		    <Label text="Who did you meet?" style="color: black; margin-bottom: 3px;"/>
+            <StackLayout  orientation="horizontal">
+                <ListPicker :items="prefixes"
+                                v-model="selectedIndex" style="margin:5; width: 70; height: 60"/>
+                <TextField class="input" hint="7xxxxxxxx"
+                    keyboardType="phone" autocorrect="false"
+                    autocapitalizationType="none" v-model="phone" style="width: 180"></TextField>
+                        
             </StackLayout>
 
  
@@ -35,14 +36,12 @@
                         <Label v-for="location in locations" :text="location.description" @tap="locationSelected(location.place_id, location.description)" style="color: white; margin: 7;"/>
                     </StackLayout>
 
-                    
-                    
             </StackLayout>
 
             <StackLayout class="modal-form-field">
                 <Label v-if="location" :text="'' + location" style="color: black; margin-bottom: 13px; margin-top: 33px;" textWrap="true"/>
                 
-                <StackLayout class="hr-dark"></StackLayout>
+                <StackLayout v-if="location" class="hr-dark"></StackLayout>
             
             </StackLayout>
             
@@ -81,6 +80,11 @@ export default {
             currentDay: new Date().getUTCDate(),
             currentMonth: new Date().getUTCMonth() + 1,
             currentYear: new Date().getUTCFullYear(),
+            prefix: '+254',
+            prefixes: [
+                    "+254"
+                ],
+            selectedIndex: 0,
             error: false,
             locations: [],
             location: null,
@@ -136,7 +140,7 @@ export default {
                         location: this.location,
                         location_id: this.locationId,
                         meeting_date: `${this.chosenDate.getFullYear()}-${this.chosenDate.getMonth() + 1}-${this.chosenDate.getDate()}`,
-                        phone: this.phone + '',
+                        phone: this.prefix + this.phone,
                         nick: this.nick
                     })
                     }).then((response) => {

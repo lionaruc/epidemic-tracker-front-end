@@ -2,7 +2,6 @@
     <Page actionBarHidden="true" @loaded="onLoaded">
         <FlexboxLayout class="page">
             <StackLayout class="form">
-                <Image class="logo" src="~/images/logo.png"></Image>
                 <Label class="header" text="Enter Code"></Label>
                 <Label class="desc" text="Please enter the code you received"></Label>
 
@@ -10,8 +9,7 @@
                     <StackLayout row="0" class="input-field">
                         <TextField class="input" hint="Code" :isEnabled="!processing"
                             keyboardType="phone" autocorrect="false"
-                            autocapitalizationType="none" v-model="user.password"
-                            returnKeyType="next" @returnPress="focusPassword"></TextField>
+                            autocapitalizationType="none" v-model="user.password"></TextField>
                         <StackLayout class="hr-dark"></StackLayout>
                     </StackLayout>
 
