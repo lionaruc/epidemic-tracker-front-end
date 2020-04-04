@@ -123,10 +123,9 @@
                         );
                     }
 
-                        
-
                     }, (e) => {
                         this.processing = false;
+                         console.log(e)
                         this.alert(
                             "Unfortunately we could not set up your account."
                         );
