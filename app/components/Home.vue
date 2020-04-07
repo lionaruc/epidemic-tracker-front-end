@@ -42,11 +42,11 @@
                                     <GridLayout columns="*, *" rows="auto, auto" v-if="!processing" style="height: 15%; margin-bottom: 2%"  class="bg-dark">
 
                                         <Button text="Contact"
-                                            @tap="showModal"
+                                            @tap="openContactForm"
                                             class="btn btn-primary" row="1" col="0" color="#C2C8E6" style=" margin-left: 23; margin-top: 1; margin-bottom: 1"></Button>
 
                                         <Button text="Activity"
-                                            @tap="showModal"
+                                            @tap="openContactForm"
                                             class="btn btn-primary" row="1" col="1" color="#C2C8E6" style="margin-top: 1; margin-left: 5;  margin-bottom: 1"></Button>
 
                                     </GridLayout>
@@ -182,6 +182,8 @@
 
     import TimeLine from "./TimeLine";
 
+    import ContactAdd from "./ContactAdd";
+
     import QuizView from "./QuizView";
 
     import ContactModal from "./ContactModal";
@@ -313,7 +315,18 @@
             },
             showModal() {
                 this.$showModal(ContactModal);
-            },   
+            }, 
+            openContactForm () {
+                this.$navigateTo(ContactAdd, {
+                    transition: {
+                    name:'fade',
+                    duration: 1200,
+                    props: {
+                        nothing: new Date(), 
+                    }
+                    },
+                });
+            }, 
             openForm() {
                 this.$navigateTo(QuizView, {
                     transition: {

@@ -1,14 +1,14 @@
 import Vue from "nativescript-vue";
 
 import routes from "./routes";
-import BackendService from "./services/backend-service";
+
+const appSettings = require("tns-core-modules/application-settings");
+
+const tok = appSettings.getString("tok", null);
 
 // Uncommment the following to see NativeScript-Vue output logs
-// Vue.config.silent = false;
-
-const backendService = new BackendService();
-Vue.prototype.$backendService = backendService;
+Vue.config.silent = false;
 
 new Vue({
-  render: h => h("frame", [h(backendService.isLoggedIn() ? routes.home : routes.login)])
+  render: h => h("frame", [h(tok?routes.home:routes.login)])
 }).$start();

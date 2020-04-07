@@ -2,10 +2,10 @@
     <Page>
         <ActionBar :title="quiz_name"></ActionBar>
 
-        <ScrollView >
+        <ScrollView  style="margin-top: 11%">
             <StackLayout  v-if="!processing && !completed">
                 <StackLayout
-                         v-for="question in items" :key="question.position"  style="margin: 13; margin-left: 33; margin-right: 33; height: 190">
+                         v-for="question in items" :key="question.position"  style="margin: 13; margin-left: 33; margin-right: 33; height: 33%; margin-top: 15%;">
                         
                         <Label   :text="(question.postion) + '. ' + question.question_text" 
                               textWrap="true" style="margin: 3; color: black;"  />

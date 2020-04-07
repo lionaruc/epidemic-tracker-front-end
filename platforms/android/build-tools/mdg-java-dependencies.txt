@@ -74,4 +74,3 @@
 /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/android/app/build/exploded-dependencies/10c79f4e62e0ab984b8a3ac2093093ef/classes.jar
 /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/android/app/build/exploded-dependencies/5525697cca0c6900a88614e7a0516b7f/classes.jar
 /home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/android/app/build/exploded-dependencies/ad9dfc0281e2861aa57d0e6cbb67aa9f/classes.jar
-/home/lionel/Documents/GitHub/epidemic-tracker-front-end/platforms/android/app/build/intermediates/javac/debug

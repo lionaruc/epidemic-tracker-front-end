@@ -3,7 +3,7 @@
 
   <slot name='header'></slot> 
 
-  <slot name='content' ></slot>  
+  <slot name='content' ></slot>
     
 </StackLayout>
 </template>
@@ -33,13 +33,13 @@ export default {
 
 .card{
     font-family: 'Open Sans', sans-serif;
-    width:330;
-    height:200;
+    width:90%;
+    height:10%;
     
     margin-left:20;
     margin-right:20;
 
-    margin: 3;
+    margin: 7;
 
     color: white;
 

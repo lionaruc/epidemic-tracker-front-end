@@ -70,7 +70,7 @@
 
                 console.log(tok);
                 if (tok) {
-                    this.$navigateTo(Code, { clearHistory: true });
+                    this.$navigateTo(Home, { clearHistory: true });
                     // this.processing = true;
                     console.log('logging in')
                 }
