@@ -34,14 +34,14 @@
                         <StackLayout class="hr-dark"></StackLayout>
 
 
-                    <StackLayout  style="height: 100; margin-top: -37px; background-color: #2C3251" v-if="!location && !textCleared">
-                        <Label v-for="location in locations" :text="location.description" @tap="locationSelected(location.place_id, location.description)" style="color: white; margin: 7;"/>
+                    <StackLayout  style="height: 15%; margin-top: -37px; background-color: #2C3251" v-if="!location && !textCleared">
+                        <Label v-for="location in locations" :text="location.description" :key="location.place_id" @tap="locationSelected(location.place_id, location.description)" style="color: white; margin: 7;"/>
                     </StackLayout>
 
             </StackLayout>
 
             <StackLayout class="modal-form-field">
-                <Label v-if="location" :text="'' + location" style="color: black; margin-bottom: 13px; margin-top: 33px;" textWrap="true"/>
+                <Label v-if="location" :text="'' + location" style="color: black; margin-bottom: 3%; margin-top: 33px;" textWrap="true"/>
                 
                 <StackLayout v-if="location" class="hr-dark"></StackLayout>
             
@@ -51,7 +51,7 @@
 
         <ActivityIndicator rowSpan="7" :busy="processing"></ActivityIndicator>
 
-        <Button v-if="phone && nick && location && chosenDate && !processing" class="btn btn-primary m-t-20" text="Save Contact" @tap="submitContact"/>
+        <Button v-if="phone && nick && location && chosenDate && !processing" class="btn btn-primary" text="Save Contact" @tap="submitContact"/>
         <Label v-if="!chosenDate" text="* Please pick a date" style="color: red; margin: 5"></Label>
 
         <Label v-if="!phone" text="* Please pick a phone number" style="color: red; margin: 5"></Label>
