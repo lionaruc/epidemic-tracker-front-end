@@ -1,5 +1,5 @@
 <template>
-    <Page actionBarHidden="true">
+    <Page actionBarHidden="true" @loaded="onLoaded">
 
         <StackLayout >
 
@@ -21,6 +21,11 @@
                                 <Label text="Search" v-if="false"></Label>
                                 <Image src="res://browse"></Image>
                             </TabStripItem>
+
+                            <TabStripItem>
+                                <Label text="Icins" v-if="false"></Label>
+                                <Image src="res://favorites"></Image>
+                            </TabStripItem>
                         </TabStrip>
 
                         <TabContentItem>
@@ -40,14 +45,16 @@
                                     </GridLayout>
 
                                     <GridLayout columns="*, *" rows="auto, auto" v-if="!processing" style="height: 15%; margin-bottom: 2%"  class="bg-dark">
+                                    
+                                         
 
-                                        <Button text="Contact"
+                                        <Button text="Activity" v-if="true" :isEnabled="false"
                                             @tap="openContactForm"
                                             class="btn btn-primary" row="1" col="0" color="#C2C8E6" style=" margin-left: 23; margin-top: 1; margin-bottom: 1"></Button>
 
-                                        <Button text="Activity"
+                                        <Button text="Contact"
                                             @tap="openContactForm"
-                                            class="btn btn-primary" row="1" col="1" color="#C2C8E6" style="margin-top: 1; margin-left: 5;  margin-bottom: 1"></Button>
+                                            class="btn btn-primary" row="1" col="1" color="#C2C8E6"  style="margin-top: 1; margin-left: 5;  margin-bottom: 1;"></Button>
 
                                     </GridLayout>
 
@@ -117,45 +124,135 @@
                                         <Label :text="month + ' ' + date + ', ' + year" row="1" col="0" class="body small"
                                             color="#C2C8E6" />
                             
-                                        
-
                                     </GridLayout>
-                                <ScrollView v-if="!processingActivities">
 
+                                <Label text="You have not added any contacts"  class="body small"
+                                          v-if="contacts.length < 1" style="color: black; margin: 23"/>
+
+                                <ScrollView v-if="!processingActivities && contacts.length >0" height="1200px">
                                         <StackLayout >
-                                            <Card v-for="contact in contacts" :key="contact.dt" :score="contact.contactee_score">
+                                            <Card v-for="contact in contacts" :key="contact.dt + contact.contactee_usn" :score="contact.contactee_score">
                                                 <template v-slot:header>
                                                     <StackLayout class="card-header">
-                                                        <label >{{contact.dt}}</label>
+                                                        <label >Date: {{contact.dt}}</label>
                                                   </StackLayout>
                                                 </template>
-
                                                 <template v-slot:content>
                                                     <StackLayout class="card-content">
-                                                        <label>{{contact.contactee_usn}}</label>
+                                                        <label>You met: {{contact.contactee_usn}}</label>
+                                                        <label>Danger Level: {{contact.contactee_score > 0?100 - contact.contactee_score + '%': 'UNKOWN'}} </label>
                                                     </StackLayout>
                                                 </template>
                                             </Card>
-
                                         </StackLayout>
-
-                                
-                                        
 		                        </ScrollView>
                                  </StackLayout>
                             </GridLayout>
                         </TabContentItem>
                         <TabContentItem>
                             <GridLayout>
-                                <Button text="Logout" :isEnabled="!processing"
-                                @tap="logout" class="btn btn-primary m-t-20"></Button>
+                                <StackLayout orientation="vertical">
+
+                                    <GridLayout columns="*, *" rows="auto, auto" v-if="!processing" style="height: 120; padding: 23"  class="bg-dark">
+                                    
+                                        <Label text="Exposure" row="0" col="0" class="medium" />
+                                        
+                                        <Label text="Levels" row="1" col="0" class="body small"
+                                            color="#C2C8E6" />
+                            
+                                    </GridLayout>
+
+                                    <Label text="You have not been exposed on any level"  class="body small"
+                                          v-if="!anyLevel()" style="color: black; margin: 23"/>
+
+                                    <ScrollView v-if="!processingExposure && anyLevel()" height="1200px">
+
+
+                                        <StackLayout >
+                                            <Card v-for="item in exposure_level_1" :key="item.dt">
+                                                <template v-slot:header>
+                                                    <StackLayout class="card-header">
+                                                        <label >Date: {{item.dt}}</label>
+                                                        <label >Degree: First</label>
+                                                  </StackLayout>
+                                                </template>
+
+                                                <template v-slot:content>
+                                                    <StackLayout class="card-content">
+                                                        <label>Number of Times: {{item.cnt}}</label>
+                                                    </StackLayout>
+                                                </template>
+                                            </Card>
+
+                                            <Card v-for="item in exposure_level_2" :key="item.dt">
+                                                <template v-slot:header>
+                                                    <StackLayout class="card-header">
+                                                        <label >Date: {{item.dt}}</label>
+                                                        <label >Degree: Second</label>
+                                                  </StackLayout>
+                                                </template>
+
+                                                <template v-slot:content>
+                                                    <StackLayout class="card-content">
+                                                        <label>Number of Times: {{item.cnt}}</label>
+                                                    </StackLayout>
+                                                </template>
+                                            </Card>
+
+                                            <Card v-for="item in exposure_level_3" :key="item.dt">
+                                                <template v-slot:header>
+                                                    <StackLayout class="card-header">
+                                                        <label >Date: {{item.dt}}</label>
+                                                        <label >Degree: Third</label>
+                                                  </StackLayout>
+                                                </template>
+
+                                                <template v-slot:content>
+                                                    <StackLayout class="card-content">
+                                                        <label>Number of Times: {{item.cnt}}</label>
+                                                    </StackLayout>
+                                                </template>
+                                            </Card>
+
+                                        </StackLayout>
+
+                                        
+
+                                    
+                                    </ScrollView>
+
+                                   
+                                </StackLayout>
+                            </GridLayout>
+                        </TabContentItem>
+                        <TabContentItem>
+                            <GridLayout>
+                                <WebView v-if="currentGeoLocation.latitude && webviewSrc" height="99%" :src="webviewSrc" loaded="onWebViewLoaded"/>
+
+                                <Button v-if="!currentGeoLocation.latitude && !webviewSrc" text="Enable Location"
+                                    @tap="enableLocationServices" class="btn btn-primary m-t-20"></Button>
                             
                             </GridLayout>
                         </TabContentItem>
 
                         <TabContentItem>
                             <GridLayout>
-                                <WebView height="1200px" :src="webviewSrc" />
+                                <StackLayout orientation="vertical">
+
+                                    <GridLayout columns="*, *" rows="auto, auto" v-if="!processing" style="height: 120; padding: 23"  class="bg-dark">
+                                    
+                                        <Label text="Account" row="0" col="0" class="medium" />
+                                        
+                                        <Label text="Options" row="1" col="0" class="body small"
+                                            color="#C2C8E6" />
+                            
+                                    </GridLayout>
+
+                                    <Button text="Logout" :isEnabled="!processing"
+                                    @tap="logout" class="btn btn-primary m-t-20"></Button>
+
+                                </StackLayout>
+                                
                             
                             </GridLayout>
                         </TabContentItem>
@@ -167,7 +264,6 @@
 
 <script>
     import { getFile, getImage, getJSON, getString, request, HttpResponse } from "tns-core-modules/http";
-
 
 
     import {BASE_API, GKEY} from '../common/constants';
@@ -190,6 +286,8 @@
 
     const appSettings = require("tns-core-modules/application-settings");
 
+    const geoLocation = require("nativescript-geolocation");
+
 
     export default {
         components: {
@@ -199,22 +297,32 @@
             return {
                 processing: true,
                 processingActivities: true,
+                processingExposure: true,
                 summary: null,
+                exposure_level_1: [],
+                exposure_level_2: [],
+                exposure_level_3: [],
+                intervalid1: null,
                 contacts: [],
                 token: null,
                 userid: null,
                 username: '',
                 message: `Welcome`,
                 isPhone: null,
-                webviewSrc: null
+                webviewSrc: null,
+                webviewLoading: false,
+                currentGeoLocation: {
+                    latitude: null,
+                    longitude: null,
+                    altitude: null,
+                    direction: null
+                }
             };
         },
         created() {
 
 
             this.token = appSettings.getString("tok", null);
-
-            this.webviewSrc = `https://imagemagikassets.s3.eu-central-1.amazonaws.com/maps_disp.html?key=${GKEY}&tok=${this.token}`
 
             this.userid = appSettings.getString("userid", null);
             // second parameter is default value
@@ -258,8 +366,59 @@
 
             this.loadSummary();
             this.loadContacts();
+            this.loadExposure();
+            let self = this;
+            this.intervalid1 = setInterval(function () {
+                self.loadSummary();
+                self.loadContacts();
+                self.loadExposure();
+            }, 18000)
+        },
+        destroyed () {
+            clearInterval(this.intervalid1);
         },
         methods: {
+
+            onLoaded (args) {
+
+                this.enableLocationServices();
+
+            },
+            enableLocationServices: function() {
+                geoLocation.isEnabled().then(enabled => {
+                    if (!enabled) {
+                        geoLocation
+                            .enableLocationRequest()
+                            .then(() => this.showLocation());
+                    } else {
+                        this.showLocation();
+                    }
+                });
+            },
+            showLocation: function() {
+                geoLocation.watchLocation(
+                    location => {
+                        this.currentGeoLocation = location;
+                        this.webviewSrc = `https://imagemagikassets.s3.eu-central-1.amazonaws.com/maps_disp.html?key=${GKEY}&tok=${this.token}&lat=${this.currentGeoLocation.latitude}&lng=${this.currentGeoLocation.longitude}`
+                    },
+                    error => {
+                        alert(error);
+                    }, {
+                        desiredAccuracy: 3,
+                        updateDistance: 10,
+                        minimumUpdateTime: 1000 * 1
+                    }
+                );
+            },
+
+            anyLevel() {
+                return this.exposure_level_1.length>0 || this.exposure_level_2.length>0 || this.exposure_level_3.length>0; 
+            },
+
+            onWebViewLoaded (webargs) {
+
+                this.webviewLoading = false;
+            },
             loadSummary () {
                 var addr = `${BASE_API}Users/user_summary/${this.userid}`
                 console.log(addr)
@@ -284,7 +443,6 @@
                         this.processing = false;
 
                     }, (e) => {
-                        // this.processing = false;
                         this.alert(
                             "Unfortunately we could not fetch your data."
                         );
@@ -299,8 +457,6 @@
                     headers: { "Content-Type": "application/json" , 'Authorization': 'Bearer ' + this.token},
                     }).then((response) => {
                         const result = response.content.toJSON();
-
-                        console.log(result);
                          
                         if(response.statusCode == 200) {
 
@@ -308,6 +464,31 @@
                         }
 
                         this.processingActivities = false;
+
+                    }, (e) => {
+                        // this.processing = false;
+                    })
+            },
+            loadExposure () {
+                var addr = `${BASE_API}Users/user_exposure/${this.userid}`
+                console.log(addr)
+                request({
+                    url: addr,
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" , 'Authorization': 'Bearer ' + this.token},
+                    }).then((response) => {
+                        const result = response.content.toJSON();
+
+                        console.log(result);
+
+                         
+                        if(response.statusCode == 200) {
+                            this.exposure_level_1 = result.level_1;
+                            this.exposure_level_2 = result.level_2;
+                            this.exposure_level_3 = result.level_3;
+                        }
+
+                        this.processingExposure = false;
 
                     }, (e) => {
                         // this.processing = false;

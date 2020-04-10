@@ -9,10 +9,10 @@
 		    <Label text="Who did you meet?" style="color: black; margin-bottom: 3px;"/>
             <StackLayout  orientation="horizontal">
                 <ListPicker :items="prefixes"
-                                v-model="selectedIndex" style="margin:5; width: 70; height: 60"/>
+                                v-model="selectedIndex" style="margin:5; width: 23%; height: 60"/>
                 <TextField class="input" hint="7xxxxxxxx"
                     keyboardType="phone" autocorrect="false"
-                    autocapitalizationType="none" v-model="phone" style="width: 180"></TextField>
+                    autocapitalizationType="none" v-model="phone" style="width: 77%"></TextField>
                         
             </StackLayout>
 
@@ -65,7 +65,7 @@
 
 <script>
 
-import { getFile, getImage, getJSON, getString, request, HttpResponse } from "tns-core-modules/http";
+import { getFile, getImage, getJSON, getString, request, HttpResponse} from "tns-core-modules/http";
 
 import {BASE_API, GKEY} from '../common/constants';
 
@@ -172,8 +172,8 @@ export default {
                                 name:'fade',
                                 duration: 1200,
                                 props: {
-                                nothing: new Date(), 
-                            }
+                                    nothing: new Date(), 
+                                }
                             },
                             });
                             this.error = false;
@@ -208,7 +208,6 @@ export default {
                         const result = response.content.toJSON();
                         this.locations = result.predictions;
                         this.processing = false;
-
                     }, (e) => {
                         this.processing = false;
                         this.alert(

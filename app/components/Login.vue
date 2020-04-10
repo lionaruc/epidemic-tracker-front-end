@@ -4,32 +4,30 @@
             <StackLayout class="form">
                 <Image class="logo" src="~/images/logo.png"></Image>
                 <Label class="header" text="Trace"></Label>
-
                 <GridLayout rows="auto, auto, auto">
                     <StackLayout orientation="horizontal" row="0">
                         <ListPicker :items="prefixes"
-                                v-model="selectedIndex" style="margin:5; width: 70; height: 60"/>
+                                v-model="selectedIndex" style="margin:5; width: 23%; height: 60"/>
 
                         <TextField class="input" hint="7xxxxxx" :isEnabled="!processing"
                             keyboardType="phone" autocorrect="false"
-                            autocapitalizationType="none" v-model="user.phone" style="width: 180"></TextField>
-                        
+                            autocapitalizationType="none" v-model="user.phone" style="width: 83%"></TextField>
+                            <StackLayout class="hr-dark" style="width: 77%"></StackLayout>
                     </StackLayout>
 
                     <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
                 </GridLayout>
-
                 <Button :text="isLoggingIn ? 'Send Code' : 'Sign Up'" :isEnabled="!processing"
                     @tap="submit" class="btn btn-primary m-t-20"></Button>
 
             </StackLayout>
 
-            
         </FlexboxLayout>
     </Page>
 </template>
 
 <script>
+
     import Home from "./Home";
 
     import Code from "./Code";
@@ -59,7 +57,6 @@
             };
         },
         created () {
-            
             // this.user.phone = appSettings.getString("username", null);
         },
         methods: {
