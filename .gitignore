@@ -1,0 +1,6 @@
+node_modules/
+platforms/
+.cloud/
+*.apk
+hooks/
+platforms/android/app/src/main/assets/app/bundle.js
