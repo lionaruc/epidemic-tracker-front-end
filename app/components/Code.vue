@@ -2,7 +2,7 @@
     <Page actionBarHidden="true" @loaded="onLoaded">
         <FlexboxLayout class="page">
             <StackLayout class="form">
-                <Label class="header" text="Enter Code"></Label>
+                <Label class="header " text="Enter Code"></Label>
                 <Label class="desc" text="Please enter the code you received"></Label>
 
                 <GridLayout rows="auto, auto, auto">
@@ -17,7 +17,7 @@
                 </GridLayout>
 
                 <Button :text="isLoggingIn ? 'Log In' : 'Sign Up'" :isEnabled="!processing"
-                    @tap="submit" class="btn btn-primary m-t-20"></Button>
+                    @tap="submit" class="red-button submit-btn"></Button>
 
                 <Label *v-show="isLoggingIn" text="Didn't receive code?"
                     class="login-label" @tap="noCode()"></Label>
@@ -204,5 +204,9 @@
 
     .bold {
         color: #000000;
+    }
+    .submit-btn {
+        border-radius: 30;
+        margin-top: 30;
     }
 </style>

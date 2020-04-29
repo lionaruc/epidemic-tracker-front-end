@@ -16,7 +16,7 @@
                 </StackLayout>
 
                 <Button text="Submit"
-                     class="btn btn-primary m-t-20" @tap="submit"></Button>
+                     class="blue-button submit-btn" @tap="submit"></Button>
             </StackLayout>
             <StackLayout orientation="vertical" style="height: 300; text-align: center" v-if="completed">
                 <RadRadialGauge  style="height: 220">
@@ -223,12 +223,17 @@
     };
 </script>
 
-<style>
+<style scoped>
 
 .nav-btn {
     margin-left: 50;
     margin-right: 50;
 }
+ .submit-btn {
+        border-radius: 30;
+        margin-top: 30;
+        width: 80%;
+    }
 
 
 </style>
