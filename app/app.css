@@ -1,8 +1,13 @@
-@import 'css/core.light.css';
+.baloo2 {
+  font-family: "Baloo2-Regular.ttf", "Baloo 2";
+}
 
-.btn-primary {
+.fa-regular {
+  font-family: "Font Awesome Regular", "fa-regular-400";
+}
+
+button {
   height: 50;
-  background-color: #D51A1A;
   border-radius: 5;
   font-size: 20;
   font-weight: 600;
@@ -24,7 +29,7 @@
 }
 
 .bg-dark{
-  background-color: #2C3251;
+  background-color: #0055fe;
 }
 
 .bg-primary{
@@ -34,11 +39,26 @@
 .bg-danger {
   background-color: #D51A1A;
 }
+button {text-transform: none;}
+.red-button {
+  background-color: rgb(255, 79, 103);
+  height: 50;
+  color: #fff;
+}
+.black-button {
+  background-color: #000;
+  height: 50;
+  color: #fff;
+}
+.blue-button {
+  background-color: #0055fe;
+  height: 50;
+  color: #fff;
+  }
 
 .page {
   background-color: white;
 }
-
 .action-bar {
   background-color: #2C3251;
 }
@@ -50,7 +70,7 @@ label {
 }
 
 .large {
-  font-size: 40;
+  font-size: 38;
   font-weight: bold;
   margin-bottom: 5;
   vertical-align: top;

@@ -340,7 +340,7 @@
                 text="Logout"
                 :isEnabled="!processing"
                 @tap="logout"
-                class="btn btn-primary m-t-20"
+                class="submit-btn red-button"
               ></Button>
             </StackLayout>
           </GridLayout>
@@ -645,7 +645,7 @@ export default {
   border-bottom-left-radius: 30;
   color: #fff;
   padding: 24;
-  height: 60%;
+  height: 260;
 }
 .home-label {
   color: white;
