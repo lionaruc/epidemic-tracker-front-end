@@ -41,7 +41,7 @@ button {
 }
 button {text-transform: none;}
 .red-button {
-  background-color: rgb(255, 79, 103);
+  background-color: #ff4f67;
   height: 50;
   color: #fff;
 }
