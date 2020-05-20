@@ -82,7 +82,7 @@ label {
 }
 
 .extra-large {
-  font-size: 48;
+  font-size: 42;
 }
 
 
@@ -166,4 +166,9 @@ background-color:#9b59b6;
 display:flex;
 justify-content:center;
 margin-top:100;
+}
+
+.btn-logout {
+  width: 90%;
+  border-radius: 30;
 }

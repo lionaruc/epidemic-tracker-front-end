@@ -85,7 +85,7 @@
                 class="home-height-main"
               >
                 <StackLayout orientation="vertical" class="cases-container">
-                  <Label class="large cases-text" text="COVID-19 Tracker" />
+                  <Label class="cases-text large" style="font-size: 32" text="COVID-19 Tracker" />
                   <FlexboxLayout
                     alignItems="center"
                     class="location-card"
@@ -235,7 +235,7 @@
                 columns="*"
                 rows="auto, auto auto"
                 v-if="!processing"
-                height="160"
+                height="180"
                 class="bg-dark activity-header"
               >
                 <Label
@@ -245,7 +245,7 @@
                   class="body small"
                   color="#C2C8E6"
                 />
-                <Label text="Activities" row="1" col="0" class="extra-large" />
+                <Label text="Activities" row="1" col="0" class="extra-large home-label" />
                 <Label
                   row="2"
                   col="0"
@@ -297,9 +297,9 @@
                 rows="auto, auto"
                 v-if="!processing"
                 style="height: 120; padding: 23"
-                class="bg-dark"
+                class="bg-dark home-header"
               >
-                <Label text="Exposure" row="0" col="0" class="medium" />
+                <Label text="Exposure" row="0" col="0" class="large home-label" />
 
                 <Label text="Levels" row="1" col="0" class="body small" color="#C2C8E6" />
               </GridLayout>
@@ -364,7 +364,7 @@
         </TabContentItem>
         <TabContentItem>
           <GridLayout
-            rows="*, 4*"
+            rows="*, 3*, 2*"
             columns="*"
             height="100%"
           >
@@ -383,36 +383,78 @@
               v-if="!currentGeoLocation.latitude && !webviewSrc"
               text="Enable Location"
               @tap="enableLocationServices"
-              class="btn btn-primary m-t-20"
+              class="btn-logout red-button"
             ></Button>
           </GridLayout>
+          <StackLayout row="2" col="0" orientation="vertical" class="cases-container" >
+                  <Label width="90%" class="medium cases-text" text="COVID-19 Tracker" />
+                  <FlexboxLayout
+                    alignItems="center"
+                    class="location-card"
+                    androidElevation="8"
+                    height="60"
+                  >
+                    <Label class="medium cases-text" :text="location"></Label>
+                  </FlexboxLayout>
+                  <StackLayout class="cases-wrapper">
+                    <FlexboxLayout
+                      class="case-item"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Label text="Active Cases" class="cases-text small"></Label>
+                      <Label text="124" class="cases-text small"></Label>
+                    </FlexboxLayout>
+                    <FlexboxLayout
+                      class="case-item"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Label text="Recovered Cases" class="cases-text small"></Label>
+                      <Label text="1" class="cases-text small"></Label>
+                    </FlexboxLayout>
+                    <FlexboxLayout
+                      class="case-item"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Label text="Fatal Cases" class="cases-text small"></Label>
+                      <Label text="3" class="cases-text small"></Label>
+                    </FlexboxLayout>
+                  </StackLayout>
+                </StackLayout>
           </GridLayout>
          
         </TabContentItem>
 
         <TabContentItem>
-          <GridLayout>
-            <StackLayout orientation="vertical">
+            <GridLayout rows="*, 4*" columns="*">
               <GridLayout
-                columns="*, *"
+                columns="*"
                 rows="auto, auto"
+                row="0"
+                col="0"
                 v-if="!processing"
-                style="height: 120; padding: 23"
-                class="bg-dark"
+                style="height: 140;"
+                class="bg-dark home-header"
               >
-                <Label text="Account" row="0" col="0" class="medium" />
+                <Label text="Account" row="0" col="0" class="large home-label" />
 
                 <Label text="Options" row="1" col="0" class="body small" color="#C2C8E6" />
               </GridLayout>
-
-              <Button
+              <FlexboxLayout row="1" col="0" flexDirection="column" justifyContent="center" alignItems="center">
+                <Button
                 text="Logout"
                 :isEnabled="!processing"
                 @tap="logout"
-                class="submit-btn red-button"
+                class="btn-logout red-button"
               ></Button>
-            </StackLayout>
-          </GridLayout>
+              </FlexboxLayout>
+              
+            </GridLayout>
         </TabContentItem>
       </Tabs>
     </StackLayout>
@@ -814,19 +856,20 @@ export default {
 
 .cases-container {
   /* padding: 20; */
+  margin-top: 20;
   background-color: #fff;
 }
 .location-card {
   background-color: #fff;
   width: 90%;
   border-radius: 8;
-  margin: 16;
+  margin: 12;
   padding-left: 16;
 }
 .cases-wrapper {
   width: 80%;
   background-color: #fff;
-  margin-top: 24;
+  margin-top: 20;
 }
 .cases-text {
   color: #000;
