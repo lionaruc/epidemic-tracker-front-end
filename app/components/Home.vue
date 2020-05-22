@@ -1,5 +1,5 @@
 <template>
-  <Page actionBarHidden="true" @loaded="onLoaded">
+  <Page xmlns:Gif="nativescript-gif" actionBarHidden="true" @loaded="onLoaded">
     <StackLayout>
       <Tabs height="100%" tabsPosition="bottom">
         <TabStrip>
@@ -31,63 +31,109 @@
           <!-- <StackLayout orientation="vertical" > -->
           <ScrollView orientation="vertical">
             <StackLayout orientation="vertical">
-            <GridLayout rows="*, 2*, auto" v-if="!processing" class="bg-dark home-header">
-              <Label
-                :text="day + ', ' + month + ' ' + date + ', ' + year"
-                row="0"
-                class="body small baloo2"
-              />
-              <StackLayout row="1" orientation="horizontal" horizontalAlign="center">
+              <GridLayout rows="*, 2*, auto" v-if="!processing" class="bg-dark home-header">
                 <Label
-                  textWrap="true"
-                  textAlignment="left"
-                  text="New people you have met today"
-                  class="large home-label"
+                  :text="day + ', ' + month + ' ' + date + ', ' + year"
+                  row="0"
+                  class="body small baloo2"
                 />
-                <FlexboxLayout flexDirection="row" justifyContent="center" class="text-wrapper">
-                  <Label textAlignment="center" :text="summary.meetings_today" class="text-right" />
-                </FlexboxLayout>
-              </StackLayout>
-              <FlexboxLayout
-                row="2"
-                flexDirection="row"
-                justifyContent="space-around"
-                v-if="!processing"
-              >
-                <Button
-                  v-if="true"
-                  :isEnabled="false"
-                  @tap="openContactForm"
-                  class="black-button btn-action"
+                <StackLayout row="1" orientation="horizontal" horizontalAlign="center">
+                  <Label
+                    textWrap="true"
+                    textAlignment="left"
+                    text="New people you have met today"
+                    class="large home-label"
+                  />
+                  <FlexboxLayout flexDirection="row" justifyContent="center" class="text-wrapper">
+                    <Label
+                      textAlignment="center"
+                      :text="summary.meetings_today"
+                      class="text-right"
+                    />
+                  </FlexboxLayout>
+                </StackLayout>
+                <FlexboxLayout
+                  row="2"
+                  flexDirection="row"
+                  justifyContent="space-around"
+                  v-if="!processing"
                 >
-                  <FormattedString>
-                    <!-- <Span text="{{'fa-heart-rate' | fonticon}}"></Span> -->
-                    <Span>Add Contact</Span>
-                  </FormattedString>
-                </Button>
+                  <Button
+                    v-if="true"
+                    :isEnabled="false"
+                    @tap="openContactForm"
+                    class="black-button btn-action"
+                  >
+                    <FormattedString>
+                      <!-- <Span text="{{'fa-heart-rate' | fonticon}}"></Span> -->
+                      <Span>Add Contact</Span>
+                    </FormattedString>
+                  </Button>
 
-                <Button @tap="openContactForm" class="red-button btn-action">
-                  <FormattedString>
-                    <span>What I did today</span>
-                  </FormattedString>
-                </Button>
-              </FlexboxLayout>
-            </GridLayout>
+                  <Button @tap="openContactForm" class="red-button btn-action">
+                    <FormattedString>
+                      <span>What I did today</span>
+                    </FormattedString>
+                  </Button>
+                </FlexboxLayout>
+              </GridLayout>
 
-            <StackLayout
-              orientation="vertical"
-              style="text-align: center"
-              v-if="!processing"
-              class="home-height-main"
-            >
-              <StackLayout class="update-section">
-                <Label :text="percentageDescription" class="radial-label" />
-                <Label
-                  :text="'Last Updated: ' + date + ' ' + month + ' ' + year"
-                  class="last-update"
-                />
-              </StackLayout>
-              <FlexboxLayout androidElevation="60" flexDirection="column" height="300" class="radial-wrapper">
+              <StackLayout
+                orientation="vertical"
+                style="text-align: center"
+                v-if="!processing"
+                class="home-height-main"
+              >
+                <StackLayout orientation="vertical" class="cases-container">
+                  <Label class="cases-text large" style="font-size: 32" text="COVID-19 Tracker" />
+                  <FlexboxLayout
+                    alignItems="center"
+                    class="location-card"
+                    androidElevation="8"
+                    height="80"
+                  >
+                    <Label class="medium cases-text" :text="location"></Label>
+                  </FlexboxLayout>
+                  <StackLayout class="cases-wrapper">
+                    <FlexboxLayout
+                      class="case-item"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Label text="Active Cases" class="cases-text small"></Label>
+                      <Label text="124" class="cases-text small"></Label>
+                    </FlexboxLayout>
+                    <FlexboxLayout
+                      class="case-item"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Label text="Recovered Cases" class="cases-text small"></Label>
+                      <Label text="1" class="cases-text small"></Label>
+                    </FlexboxLayout>
+                    <FlexboxLayout
+                      class="case-item"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Label text="Fatal Cases" class="cases-text small"></Label>
+                      <Label text="3" class="cases-text small"></Label>
+                    </FlexboxLayout>
+                  </StackLayout>
+                </StackLayout>
+                <!-- <StackLayout class="update-section">
+                  <Label :text="percentageDescription" class="radial-label" />
+                  <Label
+                    :text="'Last Updated: ' + date + ' ' + month + ' ' + year"
+                    class="last-update"
+                  />
+                </StackLayout>-->
+                <!-- 
+                  *risklevel card                
+                <FlexboxLayout androidElevation="60" flexDirection="column" height="300" class="radial-wrapper">
                 <RadRadialGauge v-if="true" height="200">
                   <RadialScale v-tkRadialGaugeScales minimum="0" maximum="6" radius="0.90">
                     <ScaleStyle
@@ -143,12 +189,12 @@
                 </RadRadialGauge>
                 <StackLayout orientation="horizontal" class="risk-details">
                   <FlexboxLayout flexDirection="column" class="risk-detail-wrapper">
-                    <!-- symptoms -->
+                
                     <Label class="symptoms" text="Symptoms" />
                     <Label class="symptom" text="None" />
                   </FlexboxLayout>
                   <FlexboxLayout flexDirection="column" class="risk-detail-wrapper">
-                    <!-- temperature -->
+                
                     <Label class="symptoms" text="Temperature" />
                     <Label class="symptom">
                       <FormattedString>
@@ -157,13 +203,24 @@
                     </Label>
                   </FlexboxLayout>
                 </StackLayout>
-              </FlexboxLayout>
-              <StackLayout class="cta-section">
-                <Button text="Self Check Quiz" class="take-quiz red-button" @tap="openForm"></Button>
-              </StackLayout>
+                </FlexboxLayout>-->
 
-              <ActivityIndicator :busy="processing"></ActivityIndicator>
-            </StackLayout>
+                <!-- <StackLayout class="cta-section">
+                <Button text="Self Check Quiz" class="take-quiz red-button" @tap="openForm"></Button>
+                </StackLayout>-->
+
+                <ActivityIndicator :busy="processing"></ActivityIndicator>
+              </StackLayout>
+              <!-- end alertlevel section -->
+              <FlexboxLayout
+                height="200"
+                alignItems="center"
+                flexDirection="column"
+                class="tips-wrapper"
+              >
+                <Image src="~/images/stop.png" height="72"></Image>
+                <Label class="tips-label" textWrap="true" text="Wash your hands at least 5 times, everyday" />
+              </FlexboxLayout>
             </StackLayout>
           </ScrollView>
           <!-- </StackLayout> -->
@@ -173,22 +230,29 @@
         <!-- end TAB 1 -->
         <TabContentItem>
           <GridLayout>
-            <StackLayout orientation="vertical">
+            <StackLayout height="100%" orientation="vertical">
               <GridLayout
-                columns="*, *"
-                rows="auto, auto"
+                columns="*"
+                rows="auto, auto auto"
                 v-if="!processing"
-                style="height: 120; padding: 23"
-                class="bg-dark"
+                height="180"
+                class="bg-dark activity-header"
               >
-                <Label text="Activities" row="0" col="0" class="medium" />
-
                 <Label
                   :text="month + ' ' + date + ', ' + year"
-                  row="1"
+                  row="0"
                   col="0"
                   class="body small"
                   color="#C2C8E6"
+                />
+                <Label text="Activities" row="1" col="0" class="extra-large home-label" />
+                <Label
+                  row="2"
+                  col="0"
+                  :text=" 'You have met ' + contacts.length + ' and 1 of them is a high risk. Isolate yourself and follow these instructions'"
+                  class="medium activities-contacts"
+                  textWrap="true"
+                  vertical-align="center"
                 />
               </GridLayout>
 
@@ -199,30 +263,25 @@
                 style="color: black; margin: 23"
               />
 
-              <ScrollView v-if="!processingActivities && contacts.length > 0" height="1200px">
+              <ScrollView v-if="!processingActivities && contacts.length > 0" height="100%">
                 <StackLayout>
                   <Card
                     v-for="contact in contacts"
                     :key="contact.dt + contact.contactee_usn"
                     :score="contact.contactee_score"
+                    androidElevation="60"
                   >
                     <template v-slot:header>
-                      <StackLayout class="card-header">
-                        <label>Date: {{ contact.dt }}</label>
-                      </StackLayout>
+                      <Label class="card-date" :text="new Date(contact.dt).getDate()" />
+                      <Label class="card-month" :text="months[new Date(contact.dt).getMonth()]" />
                     </template>
                     <template v-slot:content>
-                      <StackLayout class="card-content">
-                        <label>You met: {{ contact.contactee_usn }}</label>
-                        <label>
-                          Danger Level:
-                          {{
-                          contact.contactee_score > 0
-                          ? 100 - contact.contactee_score + "%"
-                          : "UNKOWN"
-                          }}
-                        </label>
-                      </StackLayout>
+                      <Label row="0" col="0" class="card-user">{{ contact.contactee_usn }}</Label>
+                      <Label row="1" col="0" class="card-risk">
+                        Risk Level: {{contact.contactee_score > 0 ? 100 - contact.contactee_score + "%"
+                        : "UNKNOWN"
+                        }}
+                      </Label>
                     </template>
                   </Card>
                 </StackLayout>
@@ -238,9 +297,9 @@
                 rows="auto, auto"
                 v-if="!processing"
                 style="height: 120; padding: 23"
-                class="bg-dark"
+                class="bg-dark home-header"
               >
-                <Label text="Exposure" row="0" col="0" class="medium" />
+                <Label text="Exposure" row="0" col="0" class="large home-label" />
 
                 <Label text="Levels" row="1" col="0" class="body small" color="#C2C8E6" />
               </GridLayout>
@@ -252,7 +311,7 @@
                 style="color: black; margin: 23"
               />
 
-              <ScrollView v-if="!processingExposure && anyLevel()" height="1200px">
+              <ScrollView v-if="!processingExposure && anyLevel()" height="100%">
                 <StackLayout>
                   <Card v-for="item in exposure_level_1" :key="item.dt">
                     <template v-slot:header>
@@ -304,10 +363,18 @@
           </GridLayout>
         </TabContentItem>
         <TabContentItem>
-          <GridLayout>
+          <GridLayout
+            rows="*, 3*, 2*"
+            columns="*"
+            height="100%"
+          >
+           <FlexboxLayout row="0" col="0" alignItems="center" height="20%" class="home-header bg-dark">
+            <Label text="Updates" class="large home-label"></Label>
+          </FlexboxLayout>
+          <GridLayout height="80%" row="1" col="0">
             <WebView
               v-if="currentGeoLocation.latitude && webviewSrc"
-              height="99%"
+              height="100%"
               :src="webviewSrc"
               loaded="onWebViewLoaded"
             />
@@ -316,34 +383,78 @@
               v-if="!currentGeoLocation.latitude && !webviewSrc"
               text="Enable Location"
               @tap="enableLocationServices"
-              class="btn btn-primary m-t-20"
+              class="btn-logout red-button"
             ></Button>
           </GridLayout>
+          <StackLayout row="2" col="0" orientation="vertical" class="cases-container" >
+                  <Label width="90%" class="medium cases-text" text="COVID-19 Tracker" />
+                  <FlexboxLayout
+                    alignItems="center"
+                    class="location-card"
+                    androidElevation="8"
+                    height="60"
+                  >
+                    <Label class="medium cases-text" :text="location"></Label>
+                  </FlexboxLayout>
+                  <StackLayout class="cases-wrapper">
+                    <FlexboxLayout
+                      class="case-item"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Label text="Active Cases" class="cases-text small"></Label>
+                      <Label text="124" class="cases-text small"></Label>
+                    </FlexboxLayout>
+                    <FlexboxLayout
+                      class="case-item"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Label text="Recovered Cases" class="cases-text small"></Label>
+                      <Label text="1" class="cases-text small"></Label>
+                    </FlexboxLayout>
+                    <FlexboxLayout
+                      class="case-item"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Label text="Fatal Cases" class="cases-text small"></Label>
+                      <Label text="3" class="cases-text small"></Label>
+                    </FlexboxLayout>
+                  </StackLayout>
+                </StackLayout>
+          </GridLayout>
+         
         </TabContentItem>
 
         <TabContentItem>
-          <GridLayout>
-            <StackLayout orientation="vertical">
+            <GridLayout rows="*, 4*" columns="*">
               <GridLayout
-                columns="*, *"
+                columns="*"
                 rows="auto, auto"
+                row="0"
+                col="0"
                 v-if="!processing"
-                style="height: 120; padding: 23"
-                class="bg-dark"
+                style="height: 140;"
+                class="bg-dark home-header"
               >
-                <Label text="Account" row="0" col="0" class="medium" />
+                <Label text="Account" row="0" col="0" class="large home-label" />
 
                 <Label text="Options" row="1" col="0" class="body small" color="#C2C8E6" />
               </GridLayout>
-
-              <Button
+              <FlexboxLayout row="1" col="0" flexDirection="column" justifyContent="center" alignItems="center">
+                <Button
                 text="Logout"
                 :isEnabled="!processing"
                 @tap="logout"
-                class="submit-btn red-button"
+                class="btn-logout red-button"
               ></Button>
-            </StackLayout>
-          </GridLayout>
+              </FlexboxLayout>
+              
+            </GridLayout>
         </TabContentItem>
       </Tabs>
     </StackLayout>
@@ -380,6 +491,7 @@ import ContactModal from "./ContactModal";
 const appSettings = require("tns-core-modules/application-settings");
 
 const geoLocation = require("nativescript-geolocation");
+import { MONTHS } from '../common/months';
 
 export default {
   components: {
@@ -396,6 +508,7 @@ export default {
       exposure_level_3: [],
       intervalid1: null,
       contacts: [],
+      months: [...MONTHS],
       token: null,
       userid: null,
       username: "",
@@ -409,6 +522,7 @@ export default {
         altitude: null,
         direction: null,
       },
+      location: "Nairobi, KE"
     };
   },
   created() {
@@ -640,7 +754,8 @@ export default {
 .home-height-main {
   height: 63%;
 }
-.home-header {
+.home-header,
+.activity-header {
   border-bottom-right-radius: 30;
   border-bottom-left-radius: 30;
   color: #fff;
@@ -682,7 +797,8 @@ export default {
   height: 20%;
   padding: 12 24;
 }
-.radial-label {
+.radial-label,
+.tips-label {
   font-size: 32;
   font-weight: bold;
   width: 100%;
@@ -729,5 +845,70 @@ export default {
 .symptom-val {
   font-size: 13;
   font-weight: 700;
+}
+
+.tips-wrapper {
+  height: 400;
+  background-color: rgb(230, 236, 242);
+  color: black;
+  padding: 20;
+}
+
+.cases-container {
+  /* padding: 20; */
+  margin-top: 20;
+  background-color: #fff;
+}
+.location-card {
+  background-color: #fff;
+  width: 90%;
+  border-radius: 8;
+  margin: 12;
+  padding-left: 16;
+}
+.cases-wrapper {
+  width: 80%;
+  background-color: #fff;
+  margin-top: 20;
+}
+.cases-text {
+  color: #000;
+}
+.case-item {
+  margin: 8;
+}
+
+/* tab activities */
+.activity-header {
+  margin-bottom: 20;
+}
+.activity-contacts {
+  margin-top: 4;
+  padding: 0 20;
+}
+
+.card-date {
+  font-size: 40;
+  font-weight: bold;
+}
+.card-month {
+  font-size: 22;
+  font-weight: bold;
+}
+.card-user {
+  font-size: 26;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.card-risk {
+  font-size: 18;
+  font-weight: 500;
+}
+
+.tips-label {
+  text-align: center;
+  margin-top: 8;
+  padding:0 16;
+  font-size: 28;
 }
 </style>
