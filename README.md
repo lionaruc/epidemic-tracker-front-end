@@ -15,3 +15,9 @@ https://discourse.nativescript.org/t/how-to-decrease-app-size-and-release-it-usi
 tns platform remove android
 
 tns platform add android
+
+tns proxy clear
+
+npm config get proxy
+
+npm config get https-proxy
