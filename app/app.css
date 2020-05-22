@@ -1,8 +1,13 @@
-@import 'css/core.light.css';
+.baloo2 {
+  font-family: "Baloo2-Regular.ttf", "Baloo 2";
+}
 
-.btn-primary {
+.fa-regular {
+  font-family: "Font Awesome Regular", "fa-regular-400";
+}
+
+button {
   height: 50;
-  background-color: #D51A1A;
   border-radius: 5;
   font-size: 20;
   font-weight: 600;
@@ -24,7 +29,11 @@
 }
 
 .bg-dark{
-  background-color: #2C3251;
+  background-color: #0055fe;
+}
+
+.bg-norisk {
+  background-color: #ddd;
 }
 
 .bg-primary{
@@ -34,11 +43,26 @@
 .bg-danger {
   background-color: #D51A1A;
 }
+button {text-transform: none;}
+.red-button {
+  background-color: #ff4f67;
+  height: 50;
+  color: #fff;
+}
+.black-button {
+  background-color: #000;
+  height: 50;
+  color: #fff;
+}
+.blue-button {
+  background-color: #0055fe;
+  height: 50;
+  color: #fff;
+  }
 
 .page {
   background-color: white;
 }
-
 .action-bar {
   background-color: #2C3251;
 }
@@ -49,16 +73,22 @@ label {
   color: white;
 }
 
-.large {
-  font-size: 40;
+
+.large, .extra-large {
+  font-size: 38;
   font-weight: bold;
   margin-bottom: 5;
   vertical-align: top;
 }
 
+.extra-large {
+  font-size: 42;
+}
+
+
 .medium {
-  font-size: 28;
-  /* font-weight: bold; */
+  font-size: 20;
+  font-weight: bold;
   margin-bottom: 5;
   vertical-align: top;
 }
@@ -85,30 +115,21 @@ label {
   width:100%;
   height:65;
   max-height:65;
-  align-items:center;
-  justify-content:space-between;
-  flex: 1 0 auto;
+  /* align-items:center; */
+  /* justify-content:space-between; */
+  /* flex: 1 0 auto; */
+  width: 30%;
   margin: 10;
-  padding: 10;
+  /* padding: 10; */
   
 }
   
-
-  
 .card-header-title{
-      padding-left:25;
+      /* padding-left:25; */
       margin:0;
       color:white;
       line-height:65;
-      font-weight:400;
-  
-}
-
-
-.card-content{
-  padding:10;
-  flex: 1 0 auto;
-  
+      font-weight:400;  
 }
 
 .card-content-text{
@@ -119,9 +140,9 @@ label {
 .card-footer{
   height:40;
   display:flex;
-  justify-content:flex-end;
+  /* justify-content:flex-end; */
       
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
   
 }
 
@@ -145,4 +166,9 @@ background-color:#9b59b6;
 display:flex;
 justify-content:center;
 margin-top:100;
+}
+
+.btn-logout {
+  width: 90%;
+  border-radius: 30;
 }

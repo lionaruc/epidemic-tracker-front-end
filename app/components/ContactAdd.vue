@@ -51,7 +51,7 @@
 
         <ActivityIndicator rowSpan="7" :busy="processing"></ActivityIndicator>
 
-        <Button v-if="phone && nick && location && chosenDate && !processing" class="btn btn-primary" text="Save Contact" @tap="submitContact"/>
+        <Button v-if="phone && nick && location && chosenDate && !processing" class="btn-logout blue-button" text="Save Contact" @tap="submitContact"/>
         <Label v-if="!chosenDate" text="* Please pick a date" style="color: red; margin: 5"></Label>
 
         <Label v-if="!phone" text="* Please pick a phone number" style="color: red; margin: 5"></Label>

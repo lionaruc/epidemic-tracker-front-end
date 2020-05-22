@@ -33,7 +33,7 @@
 
 
                     <StackLayout  style="height: 100; margin-top: -37px; background-color: #2C3251" v-if="!location && !textCleared">
-                        <Label v-for="location in locations" :text="location.description" @tap="locationSelected(location.place_id, location.description)" style="color: white; margin: 7;"/>
+                        <Label v-for="location in locations" :key="location.place_id" :text="location.description" @tap="locationSelected(location.place_id, location.description)" style="color: white; margin: 7;"/>
                     </StackLayout>
 
             </StackLayout>

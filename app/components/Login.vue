@@ -18,7 +18,7 @@
                     <ActivityIndicator rowSpan="3" :busy="processing"></ActivityIndicator>
                 </GridLayout>
                 <Button :text="isLoggingIn ? 'Send Code' : 'Sign Up'" :isEnabled="!processing"
-                    @tap="submit" class="btn btn-primary m-t-20"></Button>
+                    @tap="submit" class="submit-btn blue-button"></Button>
 
             </StackLayout>
 
@@ -207,5 +207,9 @@
 
     .bold {
         color: #000000;
+    }
+    .submit-btn {
+        border-radius: 30;
+        margin-top: 30;
     }
 </style>
