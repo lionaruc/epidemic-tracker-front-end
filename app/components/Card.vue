@@ -2,7 +2,7 @@
   <!-- <StackLayout orientation="vertical" androidELevation="60" :class="'card ' + variant"> -->
     <GridLayout verticalAlignment="center" columns="2*, 5*" rows="auto" androidELevation="60" :class="'card ' + variant">
       <StackLayout orientation="vertical" col="0" row="0" class="card-header" height="100%">
-        <slot name="header"></slot>
+        <slot name="header">Slot</slot>
       </StackLayout>
       <GridLayout horizontalAlignment="center"  rows="*, *" columns="*" col="1" row="0" class="card-content" height="100%">
         <slot name="content"></slot>
